@@ -10598,6 +10598,21 @@
             </item>
           </list>
         </item>
+        <item>
+          <name> Japanese-Inputmode switching Delay : MacOS Bug</name>
+          <list>
+            <item>
+              <name>Ignore the improvement of Inputmode changing </name>
+              <appendix>IMの切り替えの際の改善処理を無効にする</appendix>
+              <identifier essential="true">remap.jis_ignore_improvement_IM_changing</identifier>
+            </item>
+            <item>
+              <name>AINUモード(アイヌ)を使用</name>
+              <appendix>Smart英数・かなキーのとき</appendix>
+              <identifier essential="true">general.use_ainu</identifier>
+            </item>
+          </list>
+        </item>
       </list>
     </item>
     <item>
