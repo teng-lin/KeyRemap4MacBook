@@ -261,8 +261,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       static bool handle(const Params_KeyboardEventCallBack& params);
 
     private:
-      // XXX change the function name
-      static void timeoutAfterKey2(OSObject* owner, IOTimerEventSource* sender);
+      static void restore_timer_callback(OSObject* owner, IOTimerEventSource* sender);
 
       static KeyCode newkeycode_;
       static Flags newflag_;

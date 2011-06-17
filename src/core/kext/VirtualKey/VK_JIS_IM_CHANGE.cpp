@@ -10,7 +10,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   void
   VirtualKey::VK_JIS_IM_CHANGE::initialize(IOWorkLoop& workloop)
   {
-    restore_timer_.initialize(&workloop, NULL, timeoutAfterKey2);
+    restore_timer_.initialize(&workloop, NULL, restore_timer_callback);
   }
 
   void
@@ -34,7 +34,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   void
-  VirtualKey::VK_JIS_IM_CHANGE::timeoutAfterKey2(OSObject* owner, IOTimerEventSource* sender)
+  VirtualKey::VK_JIS_IM_CHANGE::restore_timer_callback(OSObject* owner, IOTimerEventSource* sender)
   {
     if (callback2_ == VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_INIT) {
       pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_DO;
