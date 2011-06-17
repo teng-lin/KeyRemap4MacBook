@@ -1,7 +1,9 @@
 #include "base.hpp"
 #include "bridge.h"
 #include "CommonData.hpp"
+#include "Config.hpp"
 #include "InputModeFilter.hpp"
+#include "VirtualKey.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
   namespace RemapFilter {
@@ -34,12 +36,16 @@ namespace org_pqrs_KeyRemap4MacBook {
       switch (type_) {
         case BRIDGE_FILTERTYPE_INPUTMODE_NOT:
         case BRIDGE_FILTERTYPE_INPUTMODE_ONLY:
-          current = CommonData::getcurrent_workspacedata().inputmode;
+          Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing) ?
+          current = CommonData::getcurrent_workspacedata().inputmode :
+                    current = VirtualKey::VK_JIS_IM_CHANGE::getwsd_public().inputmode;
           break;
 
         case BRIDGE_FILTERTYPE_INPUTMODEDETAIL_NOT:
         case BRIDGE_FILTERTYPE_INPUTMODEDETAIL_ONLY:
-          current = CommonData::getcurrent_workspacedata().inputmodedetail;
+          Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing) ?
+          current = CommonData::getcurrent_workspacedata().inputmodedetail :
+                    current = VirtualKey::VK_JIS_IM_CHANGE::getwsd_public().inputmodedetail;
           break;
       }
 
