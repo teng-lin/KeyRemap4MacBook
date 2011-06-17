@@ -15,6 +15,8 @@
 		3401FE0411E2E77300EBBF43 /* ParamsUnion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3401FE0111E2E77300EBBF43 /* ParamsUnion.cpp */; };
 		3401FE0511E2E77300EBBF43 /* ParamsUnion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3401FE0211E2E77300EBBF43 /* ParamsUnion.hpp */; };
 		3401FE0611E2E77300EBBF43 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3401FE0311E2E77300EBBF43 /* Vector.hpp */; };
+		340DCF2A13ABBD3E00B79770 /* VK_JIS_IM_CHANGE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 340DCF2813ABBD3E00B79770 /* VK_JIS_IM_CHANGE.cpp */; };
+		340DCF2B13ABBD3E00B79770 /* VK_JIS_IM_CHANGE.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 340DCF2913ABBD3E00B79770 /* VK_JIS_IM_CHANGE.hpp */; };
 		341272FE11D8FE0E000A62DB /* HoldingKeyToKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 341272FC11D8FE0E000A62DB /* HoldingKeyToKey.cpp */; };
 		341272FF11D8FE0E000A62DB /* HoldingKeyToKey.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 341272FD11D8FE0E000A62DB /* HoldingKeyToKey.hpp */; };
 		342C80541261B379007F15DA /* DeviceFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 342C80521261B379007F15DA /* DeviceFilter.cpp */; };
@@ -147,6 +149,8 @@
 		3401FE0111E2E77300EBBF43 /* ParamsUnion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParamsUnion.cpp; path = util/ParamsUnion.cpp; sourceTree = "<group>"; };
 		3401FE0211E2E77300EBBF43 /* ParamsUnion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ParamsUnion.hpp; path = util/ParamsUnion.hpp; sourceTree = "<group>"; };
 		3401FE0311E2E77300EBBF43 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector.hpp; path = util/Vector.hpp; sourceTree = "<group>"; };
+		340DCF2813ABBD3E00B79770 /* VK_JIS_IM_CHANGE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VK_JIS_IM_CHANGE.cpp; path = VirtualKey/VK_JIS_IM_CHANGE.cpp; sourceTree = "<group>"; };
+		340DCF2913ABBD3E00B79770 /* VK_JIS_IM_CHANGE.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VK_JIS_IM_CHANGE.hpp; path = VirtualKey/VK_JIS_IM_CHANGE.hpp; sourceTree = "<group>"; };
 		341272FC11D8FE0E000A62DB /* HoldingKeyToKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HoldingKeyToKey.cpp; path = RemapFunc/HoldingKeyToKey.cpp; sourceTree = "<group>"; };
 		341272FD11D8FE0E000A62DB /* HoldingKeyToKey.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HoldingKeyToKey.hpp; path = RemapFunc/HoldingKeyToKey.hpp; sourceTree = "<group>"; };
 		342C80521261B379007F15DA /* DeviceFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceFilter.cpp; path = RemapFilter/DeviceFilter.cpp; sourceTree = "<group>"; };
@@ -443,6 +447,8 @@
 				34B464D913A652CF00470265 /* VK_STICKY.hpp */,
 				34B464F113A65AED00470265 /* VK_JIS_BACKSLASH.cpp */,
 				34B464F213A65AED00470265 /* VK_JIS_BACKSLASH.hpp */,
+				340DCF2813ABBD3E00B79770 /* VK_JIS_IM_CHANGE.cpp */,
+				340DCF2913ABBD3E00B79770 /* VK_JIS_IM_CHANGE.hpp */,
 				34B464F913A65CE000470265 /* VK_JIS_TEMPORARY.cpp */,
 				34B464FA13A65CE000470265 /* VK_JIS_TEMPORARY.hpp */,
 				34B464ED13A659CD00470265 /* VK_JIS_TOGGLE_EISUU_KANA.cpp */,
@@ -547,6 +553,7 @@
 				34B464F413A65AED00470265 /* VK_JIS_BACKSLASH.hpp in Headers */,
 				34B464F813A65B6600470265 /* VK_JIS_YEN.hpp in Headers */,
 				34B464FC13A65CE000470265 /* VK_JIS_TEMPORARY.hpp in Headers */,
+				340DCF2B13ABBD3E00B79770 /* VK_JIS_IM_CHANGE.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +689,7 @@
 				34B464F313A65AED00470265 /* VK_JIS_BACKSLASH.cpp in Sources */,
 				34B464F713A65B6600470265 /* VK_JIS_YEN.cpp in Sources */,
 				34B464FB13A65CE000470265 /* VK_JIS_TEMPORARY.cpp in Sources */,
+				340DCF2A13ABBD3E00B79770 /* VK_JIS_IM_CHANGE.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
