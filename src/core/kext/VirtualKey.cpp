@@ -11,6 +11,7 @@
 #include "VirtualKey/VK_MOUSEKEY.hpp"
 #include "VirtualKey/VK_STICKY.hpp"
 #include "VirtualKey/VK_JIS_BACKSLASH.hpp"
+#include "VirtualKey/VK_JIS_IM_CHANGE.hpp"
 #include "VirtualKey/VK_JIS_TEMPORARY.hpp"
 #include "VirtualKey/VK_JIS_TOGGLE_EISUU_KANA.hpp"
 #include "VirtualKey/VK_JIS_YEN.hpp"
@@ -20,6 +21,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::initialize(IOWorkLoop& workloop)
   {
     VirtualKey::VK_MOUSEKEY::initialize(workloop);
+    VirtualKey::VK_JIS_IM_CHANGE::initialize(workloop);
     VirtualKey::VK_JIS_TEMPORARY::initialize(workloop);
 
     VirtualKey::VK_CONFIG::initialize();
@@ -29,6 +31,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::terminate(void)
   {
     VirtualKey::VK_MOUSEKEY::terminate();
+    VirtualKey::VK_JIS_IM_CHANGE::terminate();
     VirtualKey::VK_JIS_TEMPORARY::terminate();
 
     VirtualKey::VK_CONFIG::terminate();
@@ -50,6 +53,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     if (VirtualKey::VK_MOUSEKEY::handle(params))              { return true; }
     if (VirtualKey::VK_STICKY::handle(params))                { return true; }
     if (VirtualKey::VK_JIS_BACKSLASH::handle(params))         { return true; }
+    if (VirtualKey::VK_JIS_IM_CHANGE::handle(params))         { return true; }
     if (VirtualKey::VK_JIS_TEMPORARY::handle(params))         { return true; }
     if (VirtualKey::VK_JIS_TOGGLE_EISUU_KANA::handle(params)) { return true; }
     if (VirtualKey::VK_JIS_YEN::handle(params))               { return true; }

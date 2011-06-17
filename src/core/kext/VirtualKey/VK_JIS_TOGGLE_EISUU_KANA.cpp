@@ -1,6 +1,8 @@
 #include "base.hpp"
+#include "Config.hpp"
 #include "EventOutputQueue.hpp"
 #include "FlagStatus.hpp"
+#include "VK_JIS_IM_CHANGE.hpp"
 #include "VK_JIS_TOGGLE_EISUU_KANA.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
@@ -11,11 +13,24 @@ namespace org_pqrs_KeyRemap4MacBook {
   {
     if (params.key != KeyCode::VK_JIS_TOGGLE_EISUU_KANA) return false;
 
+    int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
+
     if (params.ex_iskeydown) {
-      if (InputMode::JAPANESE == CommonData::getcurrent_workspacedata().inputmode) {
+      if (ignore_improveIM && InputMode::JAPANESE == CommonData::getcurrent_workspacedata().inputmode ||
+          ! ignore_improveIM && InputMode::JAPANESE == VirtualKey::VK_JIS_IM_CHANGE::getwsd_public().inputmode) {
         newkeycode_ = KeyCode::JIS_EISUU;
       } else {
         newkeycode_ = KeyCode::JIS_KANA;
+      }
+
+      bool result00 = false;
+      if (! ignore_improveIM) {
+        result00 = VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(newkeycode_, ModifierFlag::NONE);
+      }
+      if (result00) {
+        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+      } else {
+        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
       }
     }
 

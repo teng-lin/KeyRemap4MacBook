@@ -4,6 +4,7 @@
 #include "Config.hpp"
 #include "InputModeFilter.hpp"
 #include "VirtualKey.hpp"
+#include "../VirtualKey/VK_JIS_IM_CHANGE.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
   namespace RemapFilter {

@@ -4,6 +4,8 @@
 #include "KeyToKey.hpp"
 #include "KeyboardRepeat.hpp"
 #include "VirtualKey.hpp"
+#include "../VirtualKey/VK_JIS_IM_CHANGE.hpp"
+#include "../VirtualKey/VK_JIS_TEMPORARY.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
   namespace RemapFunc {
@@ -175,7 +177,7 @@ namespace org_pqrs_KeyRemap4MacBook {
                        firstKey != KeyCode::VK_JIS_TEMPORARY_RESTORE  &&
                        VirtualKey::VK_JIS_IM_CHANGE::get_case1_pass_restore() == 0 &&
                        ! ignore_improveIM) {
-              Handle_VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
+              VirtualKey::VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
             }
 
             if (! ignore_improveIM) {
@@ -208,7 +210,7 @@ namespace org_pqrs_KeyRemap4MacBook {
                 firstKey != KeyCode::VK_JIS_TEMPORARY_AINU     &&
                 firstKey != KeyCode::VK_JIS_TEMPORARY_RESTORE  &&
                 ! ignore_improveIM) {
-              Handle_VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
+              VirtualKey::VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
             }
 
             KeyboardRepeat::cancel();

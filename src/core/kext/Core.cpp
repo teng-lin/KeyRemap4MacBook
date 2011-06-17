@@ -21,6 +21,7 @@
 #include "RemapFunc/KeyOverlaidModifier.hpp"
 #include "RemapFunc/PointingRelativeToScroll.hpp"
 #include "VirtualKey.hpp"
+#include "VirtualKey/VK_JIS_IM_CHANGE.hpp"
 
 #include <sys/errno.h>
 #include <IOKit/IOWorkLoop.h>

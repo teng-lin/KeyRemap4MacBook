@@ -4,6 +4,7 @@
 #include "FlagStatus.hpp"
 #include "VirtualKey.hpp"
 #include "VK_JIS_IM_CHANGE.hpp"
+#include "VK_JIS_TEMPORARY.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
   void
@@ -305,21 +306,21 @@ namespace org_pqrs_KeyRemap4MacBook {
       if (conC2_1 || conC2_2) {
         VirtualKey::VK_JIS_IM_CHANGE::update_WSD();
         VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(conC2_1 ? VirtualKey::VK_JIS_IM_CHANGE::INIT_DO : VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
-        Handle_VK_JIS_TEMPORARY::resetSavedIMD();
+        VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
       }
     } else {
       if (conC2_1) {
         result00 = VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(key00, flag00);
         if (result00) {
           VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
-          Handle_VK_JIS_TEMPORARY::resetSavedIMD();
+          VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
         } else {
           VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
         }
       }else if (conC2_2) {
         VirtualKey::VK_JIS_IM_CHANGE::update_WSD();
         VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
-        Handle_VK_JIS_TEMPORARY::resetSavedIMD();
+        VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
       }
     }
     if (conC3) {
