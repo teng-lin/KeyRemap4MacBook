@@ -1,4 +1,5 @@
 #include "CommonData.hpp"
+#include "Config.hpp"
 #include "EventOutputQueue.hpp"
 #include "KeyToKey.hpp"
 #include "KeyboardRepeat.hpp"
@@ -78,9 +79,20 @@ namespace org_pqrs_KeyRemap4MacBook {
     {
       if (! toKeys_) return false;
 
+      int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
+      KeyCode firstKey      = (*toKeys_)[0].key;
+      Flags firstKeyFlags = (*toKeys_)[0].flags;
+
       if (remapParams.isremapped) return false;
       if (! fromkeychecker_.isFromKey(remapParams.params.ex_iskeydown, remapParams.params.key, FlagStatus::makeFlags(), fromKey_.key, fromKey_.flags)) return false;
       remapParams.isremapped = true;
+
+      if (toKeys_->size() > 0) {
+        firstKey      = (*toKeys_)[0].key;
+        firstKeyFlags = (*toKeys_)[0].flags;
+      } else {
+        firstKey      = KeyCode::VK_NONE;
+      }
 
       // ------------------------------------------------------------
       // handle EventType & Modifiers
@@ -148,6 +160,30 @@ namespace org_pqrs_KeyRemap4MacBook {
           if (! ptr) return false;
           Params_KeyboardEventCallBack& params = *ptr;
 
+          if (remapParams.params.ex_iskeydown) {
+            if (firstKey == KeyCode::JIS_KANA || firstKey == KeyCode::JIS_EISUU) {
+              if (ignore_improveIM) {
+                VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+              } else {
+                VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(firstKey, firstKeyFlags);
+                VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+              }
+            } else if (firstKey != KeyCode::VK_JIS_TEMPORARY_KATAKANA &&
+                       firstKey != KeyCode::VK_JIS_TEMPORARY_HIRAGANA &&
+                       firstKey != KeyCode::VK_JIS_TEMPORARY_ROMAN    &&
+                       firstKey != KeyCode::VK_JIS_TEMPORARY_AINU     &&
+                       firstKey != KeyCode::VK_JIS_TEMPORARY_RESTORE  &&
+                       VirtualKey::VK_JIS_IM_CHANGE::get_case1_pass_restore() == 0 &&
+                       ! ignore_improveIM) {
+              Handle_VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
+            }
+
+            if (! ignore_improveIM) {
+              VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout();
+              VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+            }
+          }
+
           if (remapParams.params.ex_iskeydown && ! isRepeatEnabled_) {
             KeyboardRepeat::cancel();
           } else {
@@ -166,6 +202,15 @@ namespace org_pqrs_KeyRemap4MacBook {
           bool isLastKeyLikeModifier       = VirtualKey::isKeyLikeModifier(lastKey);
 
           if (remapParams.params.ex_iskeydown) {
+            if (firstKey != KeyCode::VK_JIS_TEMPORARY_KATAKANA &&
+                firstKey != KeyCode::VK_JIS_TEMPORARY_HIRAGANA &&
+                firstKey != KeyCode::VK_JIS_TEMPORARY_ROMAN    &&
+                firstKey != KeyCode::VK_JIS_TEMPORARY_AINU     &&
+                firstKey != KeyCode::VK_JIS_TEMPORARY_RESTORE  &&
+                ! ignore_improveIM) {
+              Handle_VK_JIS_TEMPORARY::vk_restore(remapParams.params, 0);
+            }
+
             KeyboardRepeat::cancel();
 
             FlagStatus::temporary_decrease(fromFlags);
@@ -183,6 +228,17 @@ namespace org_pqrs_KeyRemap4MacBook {
 
               Flags f = FlagStatus::makeFlags();
               KeyboardType keyboardType = remapParams.params.keyboardType;
+
+              if (i == size - 1 && (*toKeys_)[i].key == KeyCode::VK_JIS_TEMPORARY_RESTORE && ! ignore_improveIM) {
+                break;
+              } else if ( (*toKeys_)[i].key == KeyCode::JIS_KANA || (*toKeys_)[i].key == KeyCode::JIS_EISUU) {
+                if (ignore_improveIM) {
+                  VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+                } else {
+                  VirtualKey::VK_JIS_IM_CHANGE::replace_WSD((*toKeys_)[i].key, (*toKeys_)[i].flags);
+                  VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+                }
+              }
 
               EventOutputQueue::FireKey::fire_downup(f, (*toKeys_)[i].key, keyboardType);
               KeyboardRepeat::primitive_add_downup(f, (*toKeys_)[i].key, keyboardType);
@@ -222,6 +278,12 @@ namespace org_pqrs_KeyRemap4MacBook {
             }
 
           } else {
+            if (! ignore_improveIM && lastKey == KeyCode::VK_JIS_TEMPORARY_RESTORE) {
+              VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_RESTORE);
+            } else if (! ignore_improveIM) {
+              VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout();
+            }
+
             if (isLastKeyModifier || isLastKeyLikeModifier) {
               // For Lazy-Modifiers (KeyCode::VK_LAZY_*),
               // we need to handle these keys before restoring fromFlags, lastKeyFlags and lastKeyModifierFlag.

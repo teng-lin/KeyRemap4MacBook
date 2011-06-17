@@ -104,7 +104,12 @@ namespace org_pqrs_KeyRemap4MacBook {
     {
       bool savedIsAnyEventHappen = isAnyEventHappen_;
 
+      VirtualKey::VK_JIS_IM_CHANGE::static_set_case1_pass_restore(1);
+
       bool result = keytokey_.remap(remapParams);
+
+      VirtualKey::VK_JIS_IM_CHANGE::static_set_case1_pass_restore(0);
+
       if (! result) return false;
 
       // ------------------------------------------------------------
@@ -151,6 +156,9 @@ namespace org_pqrs_KeyRemap4MacBook {
 
               keytokey_fire_.call_remap_with_VK_PSEUDO_KEY(EventType::DOWN);
               keytokey_fire_.call_remap_with_VK_PSEUDO_KEY(EventType::UP);
+
+            } else if (! Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing)) {
+              Handle_VK_JIS_TEMPORARY::vk_restore(remapParams.params, 1);
             }
           }
           EventWatcher::unset(isAnyEventHappen_);
