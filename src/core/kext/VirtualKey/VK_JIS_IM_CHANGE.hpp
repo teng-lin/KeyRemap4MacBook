@@ -91,84 +91,8 @@ namespace org_pqrs_KeyRemap4MacBook {
       };
 
       static int get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
-      static int get_index_for_replaceWSD(int sign00, int skip[], int replace_num00) {
-        int ii;
-        int ret;
-        int cur_index_tmp, pre_index_tmp, others_index_tmp;
-
-        cur_index_tmp    = cur_index2_;
-        pre_index_tmp    = pre_index2_;
-        others_index_tmp = others_index2_;
-
-        bool cond00 = (cur_index2_ == wsdEISU);
-        bool cond01 = (pre_index2_ == wsdHKAT && cur_index2_ == wsdKATA);
-        bool cond02 = (pre_index2_ != wsdKATA && cur_index2_ == wsdHKAT);
-        bool cond10 = (pre_index2_ == wsdEISU && cur_index2_ == wsdHIRA);
-        bool cond11 = (pre_index2_ == wsdKATA && cur_index2_ == wsdHIRA && others_index2_ == wsdKATA);
-        bool cond12 = (pre_index2_ == wsdHKAT && cur_index2_ == wsdHIRA && others_index2_ == wsdHKAT);
-        bool cond13 = (pre_index2_ != wsdHKAT && cur_index2_ == wsdKATA);
-        bool cond14 = (pre_index2_ == wsdKATA && cur_index2_ == wsdHKAT);
-        if (replace_num00 == 2) {
-          skip[pre_index2_] = 1;
-
-        } else if (replace_num00 == 3) {
-          if (sign_plus_minus2_ == -99) {
-            sign_plus_minus2_ = 1;
-          }
-          if (sign_plus_minus2_ == 1 &&
-              (cond00 || cond01 || cond02)) {
-            sign_plus_minus2_ = -1;
-            if (cond00) {
-              others_index_tmp = wsdEISU;
-            }
-          } else if (sign_plus_minus2_ == -1     && (
-                       cond10 || cond11 || cond12 || cond13 || cond14)) {
-            sign_plus_minus2_ = 1;
-          } else {}
-          sign00 = sign_plus_minus2_;
-        }
-
-        int continue_end00 = 0;
-        for (ii = (cur_index_tmp == -1 ? 1 : cur_index_tmp);;) {
-          if (ii > wsdMAX && sign00 == 1 || ii < 1 && sign00 == -1) {
-            if (continue_end00 == 1) {
-              ret = -1;
-              break;
-            }
-            if (sign00 == 1) {
-              ii = 1;
-            } else {
-              ii = wsdMAX;
-            }
-            continue_end00 = 1;
-            continue;
-          }
-
-          if (cur_index_tmp != -1 && cur_index_tmp != ii &&
-              others_index_tmp != ii) {
-            if (skip[ii] != 1) {
-              ret = ii;
-              break;
-            }
-          }
-          ii = ii + sign00;
-        }
-
-        if (ret > 0) {
-          if (replace_num00 == 2) {
-            set_indexes_directly(-1, ret, -1);
-          } else {
-            set_indexes_directly(cur_index_tmp, ret, -1);
-          }
-          if (replace_num00 == 2 || replace_num00 == 3) {
-            set_indexes_directly(-1, -1, ret);
-          }
-        } else {
-          ret = cur_index_tmp;
-        }
-
-        return ret;
-      };
+      // XXX: DO NOT PASS int[] without length!!!
+      static int get_index_for_replaceWSD(int sign00, int skip[], int replace_num00);
 
       enum {
         POST_REMAP       = 0,
