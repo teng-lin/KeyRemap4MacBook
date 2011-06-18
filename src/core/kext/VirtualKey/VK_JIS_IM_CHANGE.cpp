@@ -467,6 +467,69 @@ namespace org_pqrs_KeyRemap4MacBook {
     return true;
   }
 
+  int
+  VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(SeesawType::Value type00)
+  {
+    int tmp_index;
+    int Aindex00, Bindex00;
+
+    if (type00 == SeesawType::CUR_PRE) {
+      Aindex00 = cur_index2_;
+      Bindex00 = pre_index2_;
+    } else if (type00 == SeesawType::EISUU_KANA) {
+      Aindex00 = wsdEISU;
+      Bindex00 = wsdHIRA;
+    } else if (type00 == SeesawType::KANA_EISUU) {
+      Aindex00 = wsdHIRA;
+      Bindex00 = wsdEISU;
+    } else if (type00 == SeesawType::KANA_OTHERS) {
+      if (others_index2_ == -1) {
+        set_indexes_directly(-1, -1, wsdKATA);
+      }
+      Aindex00 = wsdHIRA;
+      Bindex00 = others_index2_;
+    } else {
+      if (others_index2_ == -1) {
+        set_indexes_directly(-1, -1, wsdKATA);
+      }
+      Aindex00 = wsdEISU;
+      Bindex00 = others_index2_;
+    }
+
+    if (cur_index2_ != -1 && pre_index2_ != -1) {
+      if (type00 == SeesawType::CUR_PRE) {
+        set_indexes_directly(Aindex00, Bindex00, -1);
+        return cur_index2_;
+      } else {
+        tmp_index = cur_index2_;
+      }
+
+    } else {
+      if (type00 == SeesawType::CUR_PRE) {
+        if (pre_index2_ + 1 > wsdMAX) {
+          set_indexes_directly(-1, 1, -1);
+        } else {
+          set_indexes_directly(-1, pre_index2_ + 1, -1);
+        }
+        return cur_index2_;
+      } else {
+        tmp_index = Bindex00;
+      }
+    }
+    if (cur_index2_ != Aindex00) {
+      set_indexes_directly(tmp_index, Aindex00, -1);
+    } else {
+      set_indexes_directly(Aindex00, Bindex00, -1);
+    }
+    if (seesaw_init2_) {
+      if (cur_index2_ != Aindex00) {
+        set_indexes_directly(cur_index2_, Aindex00, -1);
+      }
+      seesaw_init2_ = false;
+    }
+    return cur_index2_;
+  }
+
   BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_public_;
   BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_save_[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1];
   BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_learned_;
