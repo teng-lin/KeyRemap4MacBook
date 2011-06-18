@@ -7,12 +7,17 @@ namespace org_pqrs_KeyRemap4MacBook {
   namespace VirtualKey {
     class VK_JIS_IM_CHANGE {
     public:
-      enum SeesawType {
-        CUR_PRE      = 0,
-        EISUU_KANA   = 1,
-        KANA_OTHERS  = 2,
-        KANA_EISUU   = 3,
-        EISUU_OTHERS = 4,
+      class SeesawType {
+      public:
+        enum Value {
+          // XXX: change all values to auto-indexed.
+          NONE         = -1,
+          CUR_PRE      = 0,
+          EISUU_KANA   = 1,
+          KANA_OTHERS  = 2,
+          KANA_EISUU   = 3,
+          EISUU_OTHERS = 4,
+        };
       };
 
       // This enum name may not be suitable.
@@ -85,20 +90,20 @@ namespace org_pqrs_KeyRemap4MacBook {
         seesaw_init2_ = true;
       };
 
-      static int get_index_for_seesaw_AtoB_WSD(int type00) {
+      static int get_index_for_seesaw_AtoB_WSD(SeesawType::Value type00) {
         int tmp_index;
         int Aindex00, Bindex00;
 
-        if (type00 == CUR_PRE) {
+        if (type00 == SeesawType::CUR_PRE) {
           Aindex00 = cur_index2_;
           Bindex00 = pre_index2_;
-        } else if (type00 == EISUU_KANA) {
+        } else if (type00 == SeesawType::EISUU_KANA) {
           Aindex00 = wsdEISU;
           Bindex00 = wsdHIRA;
-        } else if (type00 == KANA_EISUU) {
+        } else if (type00 == SeesawType::KANA_EISUU) {
           Aindex00 = wsdHIRA;
           Bindex00 = wsdEISU;
-        } else if (type00 == KANA_OTHERS) {
+        } else if (type00 == SeesawType::KANA_OTHERS) {
           if (others_index2_ == -1) {
             set_indexes_directly(-1, -1, wsdKATA);
           }
@@ -113,7 +118,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         }
 
         if (cur_index2_ != -1 && pre_index2_ != -1) {
-          if (type00 == CUR_PRE) {
+          if (type00 == SeesawType::CUR_PRE) {
             set_indexes_directly(Aindex00, Bindex00, -1);
             return cur_index2_;
           } else {
@@ -121,7 +126,7 @@ namespace org_pqrs_KeyRemap4MacBook {
           }
 
         } else {
-          if (type00 == CUR_PRE) {
+          if (type00 == SeesawType::CUR_PRE) {
             if (pre_index2_ + 1 > wsdMAX) {
               set_indexes_directly(-1, 1, -1);
             } else {
