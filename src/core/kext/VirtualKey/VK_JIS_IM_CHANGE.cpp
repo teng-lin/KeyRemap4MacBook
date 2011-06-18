@@ -416,7 +416,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::VK_JIS_IM_CHANGE::control_WSD(ControlWorkspaceDataType type, KeyCode modekey00, Flags flag00, InputModeDetail IMD00)
   {
     int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
-    int index00 = 1;
+    SavedInputModeIndex index00 = wsdEISU;
     BridgeWorkSpaceData curWSD00 = CommonData::getcurrent_workspacedata();
 
     if (type == CONTROL_WORKSPACEDATA_UPDATE) {
