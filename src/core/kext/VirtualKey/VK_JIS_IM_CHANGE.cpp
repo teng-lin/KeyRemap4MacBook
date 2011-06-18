@@ -535,10 +535,9 @@ namespace org_pqrs_KeyRemap4MacBook {
   {
     int ii;
     int ret;
-    int cur_index_tmp, pre_index_tmp, others_index_tmp;
+    int cur_index_tmp, others_index_tmp;
 
     cur_index_tmp    = cur_index2_;
-    pre_index_tmp    = pre_index2_;
     others_index_tmp = others_index2_;
 
     bool cond00 = (cur_index2_ == wsdEISU);
