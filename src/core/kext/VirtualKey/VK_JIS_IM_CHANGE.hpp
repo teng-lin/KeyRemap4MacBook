@@ -7,7 +7,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   namespace VirtualKey {
     class VK_JIS_IM_CHANGE {
     public:
-      enum {
+      enum SeesawType {
         CUR_PRE      = 0,
         EISUU_KANA   = 1,
         KANA_OTHERS  = 2,
