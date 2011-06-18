@@ -78,7 +78,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     int index00;
     int skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1] = { 0 };
     int replace_num00;
-    SeesawType::Value seesawType00 = SeesawType::NONE;
+    SeesawType::Value seesawType = SeesawType::NONE;
     int skipType00   = -1;
 
     if (key00 == KeyCode::VK_JIS_IM_CHANGE_CUR_PRE ||
@@ -99,15 +99,15 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     if (params.ex_iskeydown) {
       if (key00 == KeyCode::VK_JIS_IM_CHANGE_CUR_PRE) {
-        seesawType00 = SeesawType::CUR_PRE;
+        seesawType = SeesawType::CUR_PRE;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_EISUU_KANA) {
-        seesawType00 = SeesawType::EISUU_KANA;
+        seesawType = SeesawType::EISUU_KANA;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_KANA_OTHERS) {
-        seesawType00 = SeesawType::KANA_OTHERS;
+        seesawType = SeesawType::KANA_OTHERS;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_KANA_EISUU) {
-        seesawType00 = SeesawType::KANA_EISUU;
+        seesawType = SeesawType::KANA_EISUU;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_EISUU_OTHERS) {
-        seesawType00 = SeesawType::EISUU_OTHERS;
+        seesawType = SeesawType::EISUU_OTHERS;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_NONE_FORWARD) {
         skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_FORWARD;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_PRE_FORWARD) {
@@ -125,13 +125,13 @@ namespace org_pqrs_KeyRemap4MacBook {
       }
 
       newflag_ = ModifierFlag::NONE;
-      if (seesawType00 != -1) {
-        index00 = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(seesawType00);
+      if (seesawType != SeesawType::NONE) {
+        index00 = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(seesawType);
 
-        if (seesawType00 == SeesawType::EISUU_KANA   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU ||
-            seesawType00 == SeesawType::KANA_OTHERS  && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
-            seesawType00 == SeesawType::KANA_EISUU   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
-            seesawType00 == SeesawType::EISUU_OTHERS && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
+        if (seesawType == SeesawType::EISUU_KANA   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU ||
+            seesawType == SeesawType::KANA_OTHERS  && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
+            seesawType == SeesawType::KANA_EISUU   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
+            seesawType == SeesawType::EISUU_OTHERS && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
           VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_SEESAW_INIT);
         }
 
