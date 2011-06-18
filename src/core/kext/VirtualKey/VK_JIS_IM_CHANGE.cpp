@@ -447,7 +447,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       if (InputModeDetail::NONE == wsd_learned_.inputmodedetail) {
         wsd_learned_ = curWSD00;
         VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
-        set_indexes_directly(-1, index00, -1);
+        set_indexes_directly(wsdNONE, index00, wsdNONE);
       }
       wsd_save_[index00] = curWSD00;
       return true;
@@ -569,10 +569,10 @@ namespace org_pqrs_KeyRemap4MacBook {
     }
 
     int continue_end00 = 0;
-    for (ii = (cur_index_tmp == -1 ? 1 : cur_index_tmp);;) {
+    for (ii = (cur_index_tmp == wsdNONE ? 1 : cur_index_tmp);;) {
       if (ii > wsdMAX && sign00 == 1 || ii < 1 && sign00 == -1) {
         if (continue_end00 == 1) {
-          ret = -1;
+          ret = wsdNONE;
           break;
         }
         if (sign00 == 1) {
@@ -584,7 +584,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         continue;
       }
 
-      if (cur_index_tmp != -1 && cur_index_tmp != ii &&
+      if (cur_index_tmp != wsdNONE && cur_index_tmp != ii &&
           others_index_tmp != ii) {
         if (skip[ii] != 1) {
           ret = ii;
@@ -596,12 +596,12 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     if (ret > 0) {
       if (replace_num00 == 2) {
-        set_indexes_directly(-1, ret, -1);
+        set_indexes_directly(wsdNONE, ret, wsdNONE);
       } else {
-        set_indexes_directly(cur_index_tmp, ret, -1);
+        set_indexes_directly(cur_index_tmp, ret, wsdNONE);
       }
       if (replace_num00 == 2 || replace_num00 == 3) {
-        set_indexes_directly(-1, -1, ret);
+        set_indexes_directly(wsdNONE, wsdNONE, ret);
       }
     } else {
       ret = cur_index_tmp;
