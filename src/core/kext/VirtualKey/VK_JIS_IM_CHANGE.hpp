@@ -281,13 +281,9 @@ namespace org_pqrs_KeyRemap4MacBook {
       // XXX remove this value (replace by CommonData::current_workspacedata_)
       static BridgeWorkSpaceData wsd_public_;
       static BridgeWorkSpaceData wsd_save_[wsdMAX + 1];
-      static int get_WSDindex(InputModeDetail imd00, KeyCode modekey00, Flags flag00);
-      static int IMD2index(InputModeDetail imd00) {
-        return get_WSDindex(imd00, KeyCode::VK_NONE, ModifierFlag::NONE);
-      }
-      static int modeKey2index(KeyCode modekey00, Flags flag00) {
-        return get_WSDindex(InputModeDetail::UNKNOWN, modekey00, flag00);
-      }
+      // XXX change function name
+      static int IMD2index(InputModeDetail inputmodedetail);
+      static int modeKey2index(KeyCode modekey00, Flags flag00);
     };
   }
 }

@@ -350,52 +350,65 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   int
-  VirtualKey::VK_JIS_IM_CHANGE::get_WSDindex(InputModeDetail imd00, KeyCode modekey00, Flags flag00) {
-    int index00;
-    bool CtlSft = (flag00 == (ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L) ||
-                   flag00 == (ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_R) ||
-                   flag00 == (ModifierFlag::CONTROL_R | ModifierFlag::SHIFT_L) ||
-                   flag00 == (ModifierFlag::CONTROL_R | ModifierFlag::SHIFT_R) );
-
-    if (imd00 == InputModeDetail::UNKNOWN) {
-      if (modekey00 == KeyCode::JIS_EISUU && ! (flag00 == ModifierFlag::SHIFT_L || flag00 == ModifierFlag::SHIFT_R) ||
-          modekey00 == KeyCode::JIS_COLON && CtlSft) {
-        imd00 = InputModeDetail::ROMAN;
-      } else if (modekey00 == KeyCode::JIS_KANA  && ! (flag00 == ModifierFlag::SHIFT_L || flag00 == ModifierFlag::SHIFT_R) ||
-                 modekey00 == KeyCode::J && CtlSft) {
-        imd00 = InputModeDetail::JAPANESE;
-      } else if (modekey00 == KeyCode::JIS_KANA  && (flag00 == ModifierFlag::SHIFT_L || flag00 == ModifierFlag::SHIFT_R) ||
-                 modekey00 == KeyCode::K && CtlSft) {
-        imd00 = InputModeDetail::JAPANESE_KATAKANA;
-      } else if (modekey00 == KeyCode::JIS_EISUU && (flag00 == ModifierFlag::SHIFT_L || flag00 == ModifierFlag::SHIFT_R) ||
-                 modekey00 == KeyCode::SEMICOLON && CtlSft) {
-        imd00 = InputModeDetail::JAPANESE_HALFWIDTH_KANA;
-      } else if (modekey00 == KeyCode::JIS_KANA  && (flag00 == ModifierFlag::OPTION_L || flag00 == ModifierFlag::OPTION_R) ||
-                 modekey00 == KeyCode::JIS_BRACKET_RIGHT && CtlSft) {
-        imd00 = InputModeDetail::AINU;
-      } else if (modekey00 == KeyCode::L && CtlSft) {
-        imd00 = InputModeDetail::JAPANESE_FULLWIDTH_ROMAN;
-      } else {
-        return -1;
-      }
+  VirtualKey::VK_JIS_IM_CHANGE::IMD2index(InputModeDetail inputmodedetail)
+  {
+    // inputmodedetail may be two values when input source is Hiragana.
+    // - InputModeDetail::JAPANESE          using Kotoeri.
+    // - InputModeDetail::JAPANESE_HIRAGANA using AquaSKK.
+    //
+    // Normalize InputModeDetail::JAPANESE to InputModeDetail::JAPANESE_HIRAGANA.
+    if (inputmodedetail == InputModeDetail::JAPANESE) {
+      inputmodedetail == InputModeDetail::JAPANESE_HIRAGANA;
     }
 
-    if (imd00 == InputModeDetail::ROMAN) {
-      index00 = wsdEISU;
-    } else if (imd00 == InputModeDetail::JAPANESE_HIRAGANA || imd00 == InputModeDetail::JAPANESE) {
-      index00 = wsdHIRA;
-    } else if (imd00 == InputModeDetail::JAPANESE_KATAKANA) {
-      index00 = wsdKATA;
-    } else if (imd00 == InputModeDetail::JAPANESE_HALFWIDTH_KANA) {
-      index00 = wsdHKAT;
-    } else if (imd00 == InputModeDetail::AINU) {
-      index00 = wsdAINU;
-    } else if (imd00 == InputModeDetail::JAPANESE_FULLWIDTH_ROMAN) {
-      index00 = wsdFEIS;
-    } else {
-      return -1;
+    if (inputmodedetail == InputModeDetail::ROMAN)                    { return wsdEISU; }
+    if (inputmodedetail == InputModeDetail::JAPANESE_HIRAGANA)        { return wsdHIRA; }
+    if (inputmodedetail == InputModeDetail::JAPANESE_KATAKANA)        { return wsdKATA; }
+    if (inputmodedetail == InputModeDetail::JAPANESE_HALFWIDTH_KANA)  { return wsdHKAT; }
+    if (inputmodedetail == InputModeDetail::AINU)                     { return wsdAINU; }
+    if (inputmodedetail == InputModeDetail::JAPANESE_FULLWIDTH_ROMAN) { return wsdFEIS; }
+
+    return -1;
+  }
+
+  int
+  VirtualKey::VK_JIS_IM_CHANGE::modeKey2index(KeyCode key, Flags flags)
+  {
+    bool CtlSft = (flags == (ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L) ||
+                   flags == (ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_R) ||
+                   flags == (ModifierFlag::CONTROL_R | ModifierFlag::SHIFT_L) ||
+                   flags == (ModifierFlag::CONTROL_R | ModifierFlag::SHIFT_R) );
+
+    if (key == KeyCode::JIS_EISUU && ! (flags == ModifierFlag::SHIFT_L || flags == ModifierFlag::SHIFT_R) ||
+        key == KeyCode::JIS_COLON && CtlSft) {
+      return IMD2index(InputModeDetail::ROMAN);
     }
-    return index00;
+
+    if (key == KeyCode::JIS_KANA  && ! (flags == ModifierFlag::SHIFT_L || flags == ModifierFlag::SHIFT_R) ||
+        key == KeyCode::J && CtlSft) {
+      return IMD2index(InputModeDetail::JAPANESE_HIRAGANA);
+    }
+
+    if (key == KeyCode::JIS_KANA  && (flags == ModifierFlag::SHIFT_L || flags == ModifierFlag::SHIFT_R) ||
+        key == KeyCode::K && CtlSft) {
+      return IMD2index(InputModeDetail::JAPANESE_KATAKANA);
+    }
+
+    if (key == KeyCode::JIS_EISUU && (flags == ModifierFlag::SHIFT_L || flags == ModifierFlag::SHIFT_R) ||
+        key == KeyCode::SEMICOLON && CtlSft) {
+      return IMD2index(InputModeDetail::JAPANESE_HALFWIDTH_KANA);
+    }
+
+    if (key == KeyCode::JIS_KANA  && (flags == ModifierFlag::OPTION_L || flags == ModifierFlag::OPTION_R) ||
+        key == KeyCode::JIS_BRACKET_RIGHT && CtlSft) {
+      return IMD2index(InputModeDetail::AINU);
+    }
+
+    if (key == KeyCode::L && CtlSft) {
+      return IMD2index(InputModeDetail::JAPANESE_FULLWIDTH_ROMAN);
+    }
+
+    return -1;
   }
 
   // XXX: clean up this function.
