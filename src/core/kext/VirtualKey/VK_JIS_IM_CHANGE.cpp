@@ -349,7 +349,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     }
   }
 
-  int
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex
   VirtualKey::VK_JIS_IM_CHANGE::IMD2index(InputModeDetail inputmodedetail)
   {
     // inputmodedetail may be two values when input source is Hiragana.
@@ -368,10 +368,10 @@ namespace org_pqrs_KeyRemap4MacBook {
     if (inputmodedetail == InputModeDetail::AINU)                     { return wsdAINU; }
     if (inputmodedetail == InputModeDetail::JAPANESE_FULLWIDTH_ROMAN) { return wsdFEIS; }
 
-    return -1;
+    return wsdNONE;
   }
 
-  int
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex
   VirtualKey::VK_JIS_IM_CHANGE::modeKey2index(KeyCode key, Flags flags)
   {
     bool CtlSft = (flags == (ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L) ||
@@ -408,7 +408,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       return IMD2index(InputModeDetail::JAPANESE_FULLWIDTH_ROMAN);
     }
 
-    return -1;
+    return wsdNONE;
   }
 
   // XXX: clean up this function.
