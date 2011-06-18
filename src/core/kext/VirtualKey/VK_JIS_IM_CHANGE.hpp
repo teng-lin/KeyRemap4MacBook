@@ -67,7 +67,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         }
       }
 
-      static void set_new_index(int index00) {
+      static void set_new_index(SavedInputModeIndex index00) {
         if (cur_index2_ != -1 && pre_index2_ != -1) {
           if (cur_index2_ != index00) {
             set_indexes_directly(cur_index2_, index00, -1);
