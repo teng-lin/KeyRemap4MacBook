@@ -507,7 +507,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     } else {
       if (type == SeesawType::CUR_PRE) {
         if (pre_index2_ + 1 > wsdMAX) {
-          set_indexes_directly(wsdNONE, 1, wsdNONE);
+          set_indexes_directly(wsdNONE, wsdEISU, wsdNONE);
         } else {
           set_indexes_directly(wsdNONE, pre_index2_ + 1, wsdNONE);
         }
