@@ -162,7 +162,11 @@ namespace org_pqrs_KeyRemap4MacBook {
             } else if (! Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing)) {
               VirtualKey::VK_JIS_TEMPORARY::vk_restore(remapParams.params, 1);
             }
+
+          } else if (! Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing)) {
+            VirtualKey::VK_JIS_TEMPORARY::vk_restore(remapParams.params, 1);
           }
+
           EventWatcher::unset(isAnyEventHappen_);
         }
       }
