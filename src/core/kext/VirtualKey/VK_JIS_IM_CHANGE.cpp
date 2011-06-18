@@ -444,8 +444,8 @@ namespace org_pqrs_KeyRemap4MacBook {
     if (index00 < 0) return false;
 
     if (type == CONTROL_WORKSPACEDATA_LEARN) {
-      if (InputModeDetail::NONE == wsd_save_[wsdSET].inputmodedetail) {
-        wsd_save_[wsdSET] = curWSD00;
+      if (InputModeDetail::NONE == wsd_learned_.inputmodedetail) {
+        wsd_learned_ = curWSD00;
         VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
         set_indexes_directly(-1, index00, -1);
       }
@@ -468,7 +468,8 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_public_;
-  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_save_[7];
+  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_save_[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1];
+  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_learned_;
 
   KeyCode VirtualKey::VK_JIS_IM_CHANGE::newkeycode_;
   Flags VirtualKey::VK_JIS_IM_CHANGE::newflag_;

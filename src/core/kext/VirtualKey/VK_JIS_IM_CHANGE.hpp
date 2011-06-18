@@ -16,7 +16,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       };
 
       enum {
-        wsdSET   = 0,
+        // XXX: change wsdEISU to 0 and change all values to auto-indexed.
         wsdEISU  = 1,
         wsdHIRA  = 2,
         wsdKATA  = 3,
@@ -281,9 +281,11 @@ namespace org_pqrs_KeyRemap4MacBook {
       // XXX remove this value (replace by CommonData::current_workspacedata_)
       static BridgeWorkSpaceData wsd_public_;
       static BridgeWorkSpaceData wsd_save_[wsdMAX + 1];
+      static BridgeWorkSpaceData wsd_learned_;
+
       // XXX change function name
       static int IMD2index(InputModeDetail inputmodedetail);
-      static int modeKey2index(KeyCode modekey00, Flags flag00);
+      static int modeKey2index(KeyCode key, Flags flags);
     };
   }
 }
