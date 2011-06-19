@@ -67,7 +67,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         break;
 
       case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::SEESAW_INIT:
-        VirtualKey::VK_JIS_IM_CHANGE::init_seesaw();
+        seesaw_init2_ = true;
         break;
     }
   }
