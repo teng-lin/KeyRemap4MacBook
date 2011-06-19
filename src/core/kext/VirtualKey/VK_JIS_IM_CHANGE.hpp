@@ -92,9 +92,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       static void ControlWorkspaceData(Params_KeyboardEventCallBack& params, StageType::Value stage);
 
-      static void init_seesaw(void) {
-        seesaw_init2_ = true;
-      };
+      static void init_seesaw(void) { seesaw_init2_ = true; };
 
       static void reverse_sign_CHANGE_SKIP(int when00);
       static const BridgeWorkSpaceData& getwsd_public(void) { return wsd_public_; }

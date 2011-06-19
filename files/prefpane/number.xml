@@ -54,7 +54,7 @@
     </item>
 
     <item>
-      <name>[Key interval] Timeout for Japanese-Inputmode switching Delay</name>
+      <name>[For Japanese] Timeout for inputmode switching delay</name>
       <identifier essential="true" default="1000" step="10" baseunit="ms">parameter.japanese_keyinterval_timeout</identifier>
     </item>
   </list>

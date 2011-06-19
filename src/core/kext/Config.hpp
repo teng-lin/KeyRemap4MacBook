@@ -60,6 +60,10 @@ namespace org_pqrs_KeyRemap4MacBook {
       int v = get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_parameter_holdingkeytokey_wait);
       return getvalue(v, 10);
     }
+    static unsigned int get_japanese_keyinterval_timeout(void) {
+      int v = get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_parameter_japanese_keyinterval_timeout);
+      return getvalue(v, 10);
+    }
 
   private:
     static unsigned int getvalue(int value, int minval) {
