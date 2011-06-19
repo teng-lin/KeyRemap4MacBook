@@ -20,31 +20,35 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   void
-  VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout(void)
+  VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::Value callbacktype)
   {
-    restore_timer_.cancelTimeout();
-  }
-
-  void
-  VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(int callback00)
-  {
-    callback2_  = callback00;
+    callbacktype_  = callbacktype;
     // XXX check value
     restore_timer_.setTimeoutMS(Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_parameter_keyinterval_timeout));
   }
 
   void
+  VirtualKey::VK_JIS_IM_CHANGE::cancelCallback(void)
+  {
+    restore_timer_.cancelTimeout();
+  }
+
+  void
   VirtualKey::VK_JIS_IM_CHANGE::restore_timer_callback(OSObject* owner, IOTimerEventSource* sender)
   {
-    if (callback2_ == VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_INIT) {
-      pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_DO;
+    switch (callbacktype_) {
+      case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT:
+        pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_DO;
+        break;
 
-    } else if (callback2_ == VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_RESTORE) {
-      EventOutputQueue::FireKey::fire_downup(Flags(0), KeyCode::VK_JIS_TEMPORARY_RESTORE, CommonData::getcurrent_keyboardType());
-      pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT;
+      case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::RESTORE:
+        EventOutputQueue::FireKey::fire_downup(Flags(0), KeyCode::VK_JIS_TEMPORARY_RESTORE, CommonData::getcurrent_keyboardType());
+        pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT;
+        break;
 
-    } else if (callback2_ == VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_SEESAW_INIT) {
-      VirtualKey::VK_JIS_IM_CHANGE::init_seesaw();
+      case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::SEESAW_INIT:
+        VirtualKey::VK_JIS_IM_CHANGE::init_seesaw();
+        break;
     }
   }
 
@@ -132,7 +136,7 @@ namespace org_pqrs_KeyRemap4MacBook {
             seesawType == SeesawType::KANA_OTHERS  && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
             seesawType == SeesawType::KANA_EISUU   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
             seesawType == SeesawType::EISUU_OTHERS && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
-          VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_SEESAW_INIT);
+          VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::SEESAW_INIT);
         }
 
       } else {
@@ -196,7 +200,6 @@ namespace org_pqrs_KeyRemap4MacBook {
       } else {
         return true;
       }
-
     }
 
     if (params.ex_iskeydown) {
@@ -282,14 +285,14 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     if (! isKeyDown) {
       if (! isPPP && ! isonCCO && stage00 == POST_REMAP) {
-        VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_INIT);
+        VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT);
       }
 
       return;
     }
 
     if (stage00 == POST_REMAP) {
-      VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout();
+      VirtualKey::VK_JIS_IM_CHANGE::cancelCallback();
     }
 
     if (stage00 == POST_REMAP && ! ignore_improveIM) {
@@ -617,7 +620,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   KeyCode VirtualKey::VK_JIS_IM_CHANGE::newkeycode_;
   Flags VirtualKey::VK_JIS_IM_CHANGE::newflag_;
   TimerWrapper VirtualKey::VK_JIS_IM_CHANGE::restore_timer_;
-  int VirtualKey::VK_JIS_IM_CHANGE::callback2_ = VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_INIT;
+  VirtualKey::VK_JIS_IM_CHANGE::CallbackType::Value VirtualKey::VK_JIS_IM_CHANGE::callbacktype_ = VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT;
   int VirtualKey::VK_JIS_IM_CHANGE::pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT;
   // XXX change variable name
   int VirtualKey::VK_JIS_IM_CHANGE::case1_pass_restore2_ = 0;

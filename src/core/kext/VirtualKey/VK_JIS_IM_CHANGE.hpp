@@ -45,13 +45,21 @@ namespace org_pqrs_KeyRemap4MacBook {
         SKIP_EISUU        = 6,
       };
 
+      class CallbackType {
+      public:
+        enum Value {
+          INIT        = 0,
+          RESTORE     = 1,
+          SEESAW_INIT = 2,
+        };
+      };
+
       static void initialize(IOWorkLoop& workloop);
       static void terminate(void);
-      // XXX change the function name
-      static void cancelTimeout(void);
-      // XXX change the function name
-      // XXX change name of callback00
-      static void setTimeoutMS(int callback00);
+
+      static void scheduleCallback(CallbackType::Value callbacktype);
+      static void cancelCallback(void);
+
       static int  static_get_pass_initialize(void);
       static void static_set_pass_initialize(int pass_initialize00);
       static void set_pass_initialize(int value00) { pass_initialize2_ = value00; }
@@ -127,9 +135,6 @@ namespace org_pqrs_KeyRemap4MacBook {
       enum {
         INIT_DO              = 0,
         INIT_NOT             = 1,
-        CALLBACK_INIT        = 0,
-        CALLBACK_RESTORE     = 1,
-        CALLBACK_SEESAW_INIT = 2,
       };
       static bool handle(const Params_KeyboardEventCallBack& params);
 
@@ -139,8 +144,8 @@ namespace org_pqrs_KeyRemap4MacBook {
       static KeyCode newkeycode_;
       static Flags newflag_;
       static TimerWrapper restore_timer_;
-      // XXX change the variable name
-      static int callback2_;
+      static CallbackType::Value callbacktype_;
+
       static int pass_initialize2_;
       static int case1_pass_restore2_;
 

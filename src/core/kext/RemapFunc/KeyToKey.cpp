@@ -181,7 +181,7 @@ namespace org_pqrs_KeyRemap4MacBook {
             }
 
             if (! ignore_improveIM) {
-              VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout();
+              VirtualKey::VK_JIS_IM_CHANGE::cancelCallback();
               VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
             }
           }
@@ -281,9 +281,9 @@ namespace org_pqrs_KeyRemap4MacBook {
 
           } else {
             if (! ignore_improveIM && lastKey == KeyCode::VK_JIS_TEMPORARY_RESTORE) {
-              VirtualKey::VK_JIS_IM_CHANGE::setTimeoutMS(VirtualKey::VK_JIS_IM_CHANGE::CALLBACK_RESTORE);
+              VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::RESTORE);
             } else if (! ignore_improveIM) {
-              VirtualKey::VK_JIS_IM_CHANGE::cancelTimeout();
+              VirtualKey::VK_JIS_IM_CHANGE::cancelCallback();
             }
 
             if (isLastKeyModifier || isLastKeyLikeModifier) {
