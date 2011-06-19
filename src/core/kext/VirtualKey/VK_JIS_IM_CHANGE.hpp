@@ -71,13 +71,13 @@ namespace org_pqrs_KeyRemap4MacBook {
       static void ControlWorkspaceData(Params_KeyboardEventCallBack& params, int stage00);
 
       static void set_indexes_directly(SavedInputModeIndex new_pre, SavedInputModeIndex new_cur, SavedInputModeIndex new_others) {
-        if (new_pre > 0) {
+        if (new_pre != wsdNONE) {
           pre_index2_  = new_pre;
         }
-        if (new_cur > 0) {
+        if (new_cur != wsdNONE) {
           cur_index2_ = new_cur;
         }
-        if (new_others > 0) {
+        if (new_others != wsdNONE) {
           others_index2_ = new_others;
         }
       }
