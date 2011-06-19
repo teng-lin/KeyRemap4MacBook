@@ -10,28 +10,26 @@ namespace org_pqrs_KeyRemap4MacBook {
       class SeesawType {
       public:
         enum Value {
-          // XXX: change all values to auto-indexed.
-          NONE         = -1,
-          CUR_PRE      = 0,
-          EISUU_KANA   = 1,
-          KANA_OTHERS  = 2,
-          KANA_EISUU   = 3,
-          EISUU_OTHERS = 4,
+          NONE,
+          CUR_PRE,
+          EISUU_KANA,
+          KANA_OTHERS,
+          KANA_EISUU,
+          EISUU_OTHERS,
         };
       };
 
       class SkipType {
       public:
         enum Value {
-          NONE         = -1,
-          // XXX: change all values to auto-indexed.
-          NONE_FORWARD = 0,
-          NONE_BACK    = 1,
-          PRE_FORWARD  = 2,
-          PRE_BACK     = 3,
-          EISUU_KANA   = 4,
-          KANA         = 5,
-          EISUU        = 6,
+          NONE,
+          NONE_FORWARD,
+          NONE_BACK,
+          PRE_FORWARD,
+          PRE_BACK,
+          EISUU_KANA,
+          KANA,
+          EISUU,
         };
       };
 
