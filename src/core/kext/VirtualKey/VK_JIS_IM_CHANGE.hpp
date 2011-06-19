@@ -70,39 +70,9 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       static void ControlWorkspaceData(Params_KeyboardEventCallBack& params, int stage00);
 
-      static void set_indexes_directly(SavedInputModeIndex new_pre, SavedInputModeIndex new_cur, SavedInputModeIndex new_others) {
-        if (new_pre != wsdNONE) {
-          pre_index2_  = new_pre;
-        }
-        if (new_cur != wsdNONE) {
-          cur_index2_ = new_cur;
-        }
-        if (new_others != wsdNONE) {
-          others_index2_ = new_others;
-        }
-      }
-
-      static void set_new_index(SavedInputModeIndex index00) {
-        if (cur_index2_ != wsdNONE && pre_index2_ != wsdNONE) {
-          if (cur_index2_ != index00) {
-            set_indexes_directly(cur_index2_, index00, wsdNONE);
-          }
-        } else if (cur_index2_ == wsdNONE) {
-          if (pre_index2_ != index00) {
-            set_indexes_directly(wsdNONE, index00, wsdNONE);
-          }
-        } else {
-          set_indexes_directly(index00, wsdNONE, wsdNONE);
-        }
-      };
-
       static void init_seesaw(void) {
         seesaw_init2_ = true;
       };
-
-      static SavedInputModeIndex get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
-      // XXX: DO NOT PASS int[] without length!!!
-      static SavedInputModeIndex get_index_for_replaceWSD(int sign00, int skip[], int replace_num00);
 
       enum {
         POST_REMAP       = 0,
@@ -138,6 +108,13 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     private:
       static void restore_timer_callback(OSObject* owner, IOTimerEventSource* sender);
+
+      static SavedInputModeIndex get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
+      // XXX: DO NOT PASS int[] without length!!!
+      static SavedInputModeIndex get_index_for_replaceWSD(int sign00, int skip[], int replace_num00);
+
+      static void set_indexes_directly(SavedInputModeIndex new_pre, SavedInputModeIndex new_cur, SavedInputModeIndex new_others);
+      static void set_new_index(SavedInputModeIndex index00);
 
       static KeyCode newkeycode_;
       static Flags newflag_;

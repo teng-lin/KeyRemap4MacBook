@@ -7,6 +7,27 @@
 #include "VK_JIS_TEMPORARY.hpp"
 
 namespace org_pqrs_KeyRemap4MacBook {
+  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_public_;
+  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_save_[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1];
+  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_learned_;
+
+  KeyCode VirtualKey::VK_JIS_IM_CHANGE::newkeycode_;
+  Flags VirtualKey::VK_JIS_IM_CHANGE::newflag_;
+  TimerWrapper VirtualKey::VK_JIS_IM_CHANGE::restore_timer_;
+  VirtualKey::VK_JIS_IM_CHANGE::CallbackType::Value VirtualKey::VK_JIS_IM_CHANGE::callbacktype_ = VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT;
+  bool VirtualKey::VK_JIS_IM_CHANGE::omit_initialize_ = true;
+  // XXX change variable name
+  int VirtualKey::VK_JIS_IM_CHANGE::case1_pass_restore2_ = 0;
+
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::pre_index2_    = wsdNONE;
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::cur_index2_    = wsdNONE;
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::others_index2_ = wsdNONE;
+
+  int VirtualKey::VK_JIS_IM_CHANGE::sign_plus_minus2_ = -99;
+  int VirtualKey::VK_JIS_IM_CHANGE::counter_plus_minus2_ = 0;
+  int VirtualKey::VK_JIS_IM_CHANGE::pre_counter_plus_minus2_ = 0;
+  bool VirtualKey::VK_JIS_IM_CHANGE::seesaw_init2_ = false;
+
   void
   VirtualKey::VK_JIS_IM_CHANGE::initialize(IOWorkLoop& workloop)
   {
@@ -597,24 +618,33 @@ namespace org_pqrs_KeyRemap4MacBook {
     return ret;
   }
 
-  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_public_;
-  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_save_[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1];
-  BridgeWorkSpaceData VirtualKey::VK_JIS_IM_CHANGE::wsd_learned_;
+  void
+  VirtualKey::VK_JIS_IM_CHANGE::set_indexes_directly(SavedInputModeIndex new_pre, SavedInputModeIndex new_cur, SavedInputModeIndex new_others)
+  {
+    if (new_pre != wsdNONE) {
+      pre_index2_  = new_pre;
+    }
+    if (new_cur != wsdNONE) {
+      cur_index2_ = new_cur;
+    }
+    if (new_others != wsdNONE) {
+      others_index2_ = new_others;
+    }
+  }
 
-  KeyCode VirtualKey::VK_JIS_IM_CHANGE::newkeycode_;
-  Flags VirtualKey::VK_JIS_IM_CHANGE::newflag_;
-  TimerWrapper VirtualKey::VK_JIS_IM_CHANGE::restore_timer_;
-  VirtualKey::VK_JIS_IM_CHANGE::CallbackType::Value VirtualKey::VK_JIS_IM_CHANGE::callbacktype_ = VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT;
-  bool VirtualKey::VK_JIS_IM_CHANGE::omit_initialize_ = true;
-  // XXX change variable name
-  int VirtualKey::VK_JIS_IM_CHANGE::case1_pass_restore2_ = 0;
-
-  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::pre_index2_    = wsdNONE;
-  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::cur_index2_    = wsdNONE;
-  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::others_index2_ = wsdNONE;
-
-  int VirtualKey::VK_JIS_IM_CHANGE::sign_plus_minus2_ = -99;
-  int VirtualKey::VK_JIS_IM_CHANGE::counter_plus_minus2_ = 0;
-  int VirtualKey::VK_JIS_IM_CHANGE::pre_counter_plus_minus2_ = 0;
-  bool VirtualKey::VK_JIS_IM_CHANGE::seesaw_init2_ = false;
+  void
+  VirtualKey::VK_JIS_IM_CHANGE::set_new_index(SavedInputModeIndex index00)
+  {
+    if (cur_index2_ != wsdNONE && pre_index2_ != wsdNONE) {
+      if (cur_index2_ != index00) {
+        set_indexes_directly(cur_index2_, index00, wsdNONE);
+      }
+    } else if (cur_index2_ == wsdNONE) {
+      if (pre_index2_ != index00) {
+        set_indexes_directly(wsdNONE, index00, wsdNONE);
+      }
+    } else {
+      set_indexes_directly(index00, wsdNONE, wsdNONE);
+    }
+  }
 }
