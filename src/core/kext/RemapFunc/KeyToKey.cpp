@@ -165,10 +165,10 @@ namespace org_pqrs_KeyRemap4MacBook {
           if (remapParams.params.ex_iskeydown) {
             if (firstKey == KeyCode::JIS_KANA || firstKey == KeyCode::JIS_EISUU) {
               if (ignore_improveIM) {
-                VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+                VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(false);
               } else {
                 VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(firstKey, firstKeyFlags);
-                VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+                VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(true);
               }
             } else if (firstKey != KeyCode::VK_JIS_TEMPORARY_KATAKANA &&
                        firstKey != KeyCode::VK_JIS_TEMPORARY_HIRAGANA &&
@@ -182,7 +182,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
             if (! ignore_improveIM) {
               VirtualKey::VK_JIS_IM_CHANGE::cancelCallback();
-              VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+              VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(true);
             }
           }
 
@@ -235,10 +235,10 @@ namespace org_pqrs_KeyRemap4MacBook {
                 break;
               } else if ( (*toKeys_)[i].key == KeyCode::JIS_KANA || (*toKeys_)[i].key == KeyCode::JIS_EISUU) {
                 if (ignore_improveIM) {
-                  VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+                  VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(false);
                 } else {
                   VirtualKey::VK_JIS_IM_CHANGE::replace_WSD((*toKeys_)[i].key, (*toKeys_)[i].flags);
-                  VirtualKey::VK_JIS_IM_CHANGE::set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+                  VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(true);
                 }
               }
 

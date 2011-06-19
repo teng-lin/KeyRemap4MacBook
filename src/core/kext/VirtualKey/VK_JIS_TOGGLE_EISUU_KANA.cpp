@@ -28,9 +28,9 @@ namespace org_pqrs_KeyRemap4MacBook {
         result00 = VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(newkeycode_, ModifierFlag::NONE);
       }
       if (result00) {
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+        VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(true);
       } else {
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+        VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(false);
       }
     }
 

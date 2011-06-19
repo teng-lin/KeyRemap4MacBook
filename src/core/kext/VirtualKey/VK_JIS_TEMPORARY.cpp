@@ -53,7 +53,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       if (savedinputmodedetail_ != InputModeDetail::NONE) {
         if (! Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing)) {
           VirtualKey::VK_JIS_IM_CHANGE::restore_WSD(savedinputmodedetail_);
-          VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+          VirtualKey::VK_JIS_IM_CHANGE::set_omit_initialize(true);
         }
 
         firekeytoinputdetail(params, savedinputmodedetail_);

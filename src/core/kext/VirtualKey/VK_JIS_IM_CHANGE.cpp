@@ -38,31 +38,18 @@ namespace org_pqrs_KeyRemap4MacBook {
   {
     switch (callbacktype_) {
       case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT:
-        pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_DO;
+        omit_initialize_ = false;
         break;
 
       case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::RESTORE:
         EventOutputQueue::FireKey::fire_downup(Flags(0), KeyCode::VK_JIS_TEMPORARY_RESTORE, CommonData::getcurrent_keyboardType());
-        pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT;
+        omit_initialize_ = true;
         break;
 
       case VirtualKey::VK_JIS_IM_CHANGE::CallbackType::SEESAW_INIT:
         VirtualKey::VK_JIS_IM_CHANGE::init_seesaw();
         break;
     }
-  }
-
-  int
-  VirtualKey::VK_JIS_IM_CHANGE::static_get_pass_initialize(void)
-  {
-    return pass_initialize2_;
-  }
-
-  void
-  VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(int pass_initialize00)
-  {
-    if (pass_initialize00 != VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT && pass_initialize00 != VirtualKey::VK_JIS_IM_CHANGE::INIT_DO) return;
-    pass_initialize2_ = pass_initialize00;
   }
 
   void
@@ -216,9 +203,9 @@ namespace org_pqrs_KeyRemap4MacBook {
         result00 = VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(newkeycode_, newflag_);
       }
       if (result00) {
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+        omit_initialize_ = true;
       } else {
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+        omit_initialize_ = false;
       }
     }
 
@@ -242,7 +229,6 @@ namespace org_pqrs_KeyRemap4MacBook {
     bool isonS;
     bool is_eisuu_kana_kanashift;
     bool isonCCOSonly;
-    int pass_initialize00;
     int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
     bool result00;
 
@@ -299,36 +285,34 @@ namespace org_pqrs_KeyRemap4MacBook {
       VirtualKey::VK_JIS_IM_CHANGE::learn_WSD();
     }
 
-    pass_initialize00 = VirtualKey::VK_JIS_IM_CHANGE::static_get_pass_initialize();
-
     bool conC2_1 = isPPP  && stage00 == NON_REMAPPED;
-    bool conC2_2 = ! isPPP && stage00 == POST_REMAP && pass_initialize00 == VirtualKey::VK_JIS_IM_CHANGE::INIT_DO;
+    bool conC2_2 = ! isPPP && stage00 == POST_REMAP && (! omit_initialize_);
     bool conC3   = ! isPPP && stage00 == NON_REMAPPED;
 
     if (ignore_improveIM) {
       if (conC2_1 || conC2_2) {
         VirtualKey::VK_JIS_IM_CHANGE::update_WSD();
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(conC2_1 ? VirtualKey::VK_JIS_IM_CHANGE::INIT_DO : VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+        omit_initialize_ = ! conC2_1;
         VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
       }
     } else {
       if (conC2_1) {
         result00 = VirtualKey::VK_JIS_IM_CHANGE::replace_WSD(key00, flag00);
         if (result00) {
-          VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+          omit_initialize_ = true;
           VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
         } else {
-          VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+          omit_initialize_ = false;
         }
       }else if (conC2_2) {
         VirtualKey::VK_JIS_IM_CHANGE::update_WSD();
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+        omit_initialize_ = true;
         VirtualKey::VK_JIS_TEMPORARY::resetSavedIMD();
       }
     }
     if (conC3) {
       EventOutputQueue::FireKey::fire_downup(Flags(0), KeyCode::VK_JIS_TEMPORARY_RESTORE, params.keyboardType);
-      VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT);
+      omit_initialize_ = true;
     }
     return;
   }
@@ -449,7 +433,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     if (type == CONTROL_WORKSPACEDATA_LEARN) {
       if (InputModeDetail::NONE == wsd_learned_.inputmodedetail) {
         wsd_learned_ = curWSD00;
-        VirtualKey::VK_JIS_IM_CHANGE::static_set_pass_initialize(VirtualKey::VK_JIS_IM_CHANGE::INIT_DO);
+        omit_initialize_ = false;
         set_indexes_directly(wsdNONE, index00, wsdNONE);
       }
       wsd_save_[index00] = curWSD00;
@@ -621,7 +605,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   Flags VirtualKey::VK_JIS_IM_CHANGE::newflag_;
   TimerWrapper VirtualKey::VK_JIS_IM_CHANGE::restore_timer_;
   VirtualKey::VK_JIS_IM_CHANGE::CallbackType::Value VirtualKey::VK_JIS_IM_CHANGE::callbacktype_ = VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT;
-  int VirtualKey::VK_JIS_IM_CHANGE::pass_initialize2_ = VirtualKey::VK_JIS_IM_CHANGE::INIT_NOT;
+  bool VirtualKey::VK_JIS_IM_CHANGE::omit_initialize_ = true;
   // XXX change variable name
   int VirtualKey::VK_JIS_IM_CHANGE::case1_pass_restore2_ = 0;
 

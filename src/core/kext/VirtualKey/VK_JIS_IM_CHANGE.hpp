@@ -60,9 +60,8 @@ namespace org_pqrs_KeyRemap4MacBook {
       static void scheduleCallback(CallbackType::Value callbacktype);
       static void cancelCallback(void);
 
-      static int  static_get_pass_initialize(void);
-      static void static_set_pass_initialize(int pass_initialize00);
-      static void set_pass_initialize(int value00) { pass_initialize2_ = value00; }
+      static void set_omit_initialize(bool omit_initialize) { omit_initialize_ = omit_initialize; }
+
       static void static_set_case1_pass_restore(int case1_pass_restore00);
       static int get_case1_pass_restore(void) { return case1_pass_restore2_; }
 
@@ -132,10 +131,6 @@ namespace org_pqrs_KeyRemap4MacBook {
         return control_WSD(CONTROL_WORKSPACEDATA_RESTORE, KeyCode::VK_NONE, ModifierFlag::NONE, IMDsaved00);
       };
 
-      enum {
-        INIT_DO              = 0,
-        INIT_NOT             = 1,
-      };
       static bool handle(const Params_KeyboardEventCallBack& params);
 
     private:
@@ -146,7 +141,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       static TimerWrapper restore_timer_;
       static CallbackType::Value callbacktype_;
 
-      static int pass_initialize2_;
+      static bool omit_initialize_;
       static int case1_pass_restore2_;
 
       static SavedInputModeIndex pre_index2_;
