@@ -87,7 +87,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
     int use_ainu = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_general_use_ainu);
     KeyCode key00  = params.key;
-    int index00;
+    SavedInputModeIndex index = wsdNONE;
     int skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1] = { 0 };
     int replace_num00;
     SeesawType::Value seesawType = SeesawType::NONE;
@@ -138,12 +138,12 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       newflag_ = ModifierFlag::NONE;
       if (seesawType != SeesawType::NONE) {
-        index00 = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(seesawType);
+        index = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(seesawType);
 
-        if (seesawType == SeesawType::EISUU_KANA   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU ||
-            seesawType == SeesawType::KANA_OTHERS  && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
-            seesawType == SeesawType::KANA_EISUU   && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA ||
-            seesawType == SeesawType::EISUU_OTHERS && index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
+        if (seesawType == SeesawType::EISUU_KANA   && index == wsdEISU ||
+            seesawType == SeesawType::KANA_OTHERS  && index == wsdHIRA ||
+            seesawType == SeesawType::KANA_EISUU   && index == wsdHIRA ||
+            seesawType == SeesawType::EISUU_OTHERS && index == wsdEISU) {
           VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::SEESAW_INIT);
         }
 
@@ -184,25 +184,25 @@ namespace org_pqrs_KeyRemap4MacBook {
             replace_num00 = 2;
           }
         }
-        index00 = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(sign00, skip00, replace_num00);
+        index = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(sign00, skip00, replace_num00);
       }
 
-      if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
+      if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdEISU) {
         newkeycode_ = KeyCode::JIS_COLON;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA) {
+      } else if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA) {
         newkeycode_ = KeyCode::J;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdKATA) {
+      } else if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdKATA) {
         newkeycode_ = KeyCode::K;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdHKAT) {
+      } else if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdHKAT) {
         newkeycode_ = KeyCode::SEMICOLON;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdFEIS) {
+      } else if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdFEIS) {
         newkeycode_ = KeyCode::L;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index00 == VirtualKey::VK_JIS_IM_CHANGE::wsdAINU) {
+      } else if (index == VirtualKey::VK_JIS_IM_CHANGE::wsdAINU) {
         newkeycode_ = KeyCode::JIS_BRACKET_RIGHT;
         newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
       } else {
@@ -424,14 +424,14 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::VK_JIS_IM_CHANGE::control_WSD(ControlWorkspaceDataType type, KeyCode modekey00, Flags flag00, InputModeDetail IMD00)
   {
     int ignore_improveIM = Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_remap_jis_ignore_improvement_IM_changing);
-    SavedInputModeIndex index00 = wsdEISU;
+    SavedInputModeIndex index = wsdNONE;
     BridgeWorkSpaceData curWSD00 = CommonData::getcurrent_workspacedata();
 
     if (type == CONTROL_WORKSPACEDATA_UPDATE) {
       wsd_public_ = curWSD00;
 
-      index00 = IMD2index(wsd_public_.inputmodedetail);
-      set_new_index(index00);
+      index = IMD2index(wsd_public_.inputmodedetail);
+      set_new_index(index);
       return true;
     }
 
@@ -443,28 +443,28 @@ namespace org_pqrs_KeyRemap4MacBook {
     }
 
     if (type == CONTROL_WORKSPACEDATA_LEARN) {
-      index00 = IMD2index(curWSD00.inputmodedetail);
+      index = IMD2index(curWSD00.inputmodedetail);
     } else if (type == CONTROL_WORKSPACEDATA_REPLACE) {
-      index00 = modeKey2index(modekey00, flag00);
+      index = modeKey2index(modekey00, flag00);
     } else {
-      index00 = IMD2index(IMD00);
+      index = IMD2index(IMD00);
     }
-    if (index00 < 0) return false;
+    if (index == wsdNONE) return false;
 
     if (type == CONTROL_WORKSPACEDATA_LEARN) {
       if (InputModeDetail::NONE == wsd_learned_.inputmodedetail) {
         wsd_learned_ = curWSD00;
         omit_initialize_ = false;
-        set_indexes_directly(wsdNONE, index00, wsdNONE);
+        set_indexes_directly(wsdNONE, index, wsdNONE);
       }
-      wsd_save_[index00] = curWSD00;
+      wsd_save_[index] = curWSD00;
       return true;
 
     } else if ((type == CONTROL_WORKSPACEDATA_REPLACE || type == CONTROL_WORKSPACEDATA_RESTORE) && ! ignore_improveIM) {
-      if (InputModeDetail::NONE != wsd_save_[index00].inputmodedetail) {
-        wsd_public_ = wsd_save_[index00];
+      if (InputModeDetail::NONE != wsd_save_[index].inputmodedetail) {
+        wsd_public_ = wsd_save_[index];
         if (type == CONTROL_WORKSPACEDATA_REPLACE) {
-          set_new_index(index00);
+          set_new_index(index);
         }
       } else {
         return false;
