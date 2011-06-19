@@ -100,7 +100,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         seesaw_init2_ = true;
       };
 
-      static int get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
+      static SavedInputModeIndex get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
       // XXX: DO NOT PASS int[] without length!!!
       static SavedInputModeIndex get_index_for_replaceWSD(int sign00, int skip[], int replace_num00);
 

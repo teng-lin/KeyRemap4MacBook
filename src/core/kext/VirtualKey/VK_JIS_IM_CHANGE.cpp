@@ -454,7 +454,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     return true;
   }
 
-  int
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex
   VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(SeesawType::Value type)
   {
     SavedInputModeIndex tmp_index;
