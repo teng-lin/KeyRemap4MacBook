@@ -45,7 +45,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   {
     callbacktype_  = callbacktype;
     // XXX check value
-    restore_timer_.setTimeoutMS(Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_parameter_keyinterval_timeout));
+    restore_timer_.setTimeoutMS(Config::get_essential_config(BRIDGE_ESSENTIAL_CONFIG_INDEX_parameter_japanese_keyinterval_timeout));
   }
 
   void
