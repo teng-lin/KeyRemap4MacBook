@@ -470,8 +470,8 @@ namespace org_pqrs_KeyRemap4MacBook {
   int
   VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(SeesawType::Value type)
   {
-    int tmp_index;
-    int Aindex00, Bindex00;
+    SavedInputModeIndex tmp_index;
+    SavedInputModeIndex Aindex00, Bindex00;
 
     if (type == SeesawType::CUR_PRE) {
       Aindex00 = cur_index2_;
@@ -509,7 +509,7 @@ namespace org_pqrs_KeyRemap4MacBook {
         if (pre_index2_ + 1 > wsdMAX) {
           set_indexes_directly(wsdNONE, wsdEISU, wsdNONE);
         } else {
-          set_indexes_directly(wsdNONE, pre_index2_ + 1, wsdNONE);
+          set_indexes_directly(wsdNONE, static_cast<SavedInputModeIndex>(pre_index2_ + 1), wsdNONE);
         }
         return cur_index2_;
       } else {
@@ -530,12 +530,12 @@ namespace org_pqrs_KeyRemap4MacBook {
     return cur_index2_;
   }
 
-  int
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex
   VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(int sign00, int skip[], int replace_num00)
   {
     int ii;
-    int ret;
-    int cur_index_tmp, others_index_tmp;
+    SavedInputModeIndex ret;
+    SavedInputModeIndex cur_index_tmp, others_index_tmp;
 
     cur_index_tmp    = cur_index2_;
     others_index_tmp = others_index2_;
@@ -587,7 +587,7 @@ namespace org_pqrs_KeyRemap4MacBook {
       if (cur_index_tmp != wsdNONE && cur_index_tmp != ii &&
           others_index_tmp != ii) {
         if (skip[ii] != 1) {
-          ret = ii;
+          ret = static_cast<SavedInputModeIndex>(ii);
           break;
         }
       }
@@ -622,9 +622,9 @@ namespace org_pqrs_KeyRemap4MacBook {
   // XXX change variable name
   int VirtualKey::VK_JIS_IM_CHANGE::case1_pass_restore2_ = 0;
 
-  int VirtualKey::VK_JIS_IM_CHANGE::pre_index2_    = wsdNONE;
-  int VirtualKey::VK_JIS_IM_CHANGE::cur_index2_    = wsdNONE;
-  int VirtualKey::VK_JIS_IM_CHANGE::others_index2_ = wsdNONE;
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::pre_index2_    = wsdNONE;
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::cur_index2_    = wsdNONE;
+  VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex VirtualKey::VK_JIS_IM_CHANGE::others_index2_ = wsdNONE;
 
   int VirtualKey::VK_JIS_IM_CHANGE::sign_plus_minus2_ = -99;
   int VirtualKey::VK_JIS_IM_CHANGE::counter_plus_minus2_ = 0;
