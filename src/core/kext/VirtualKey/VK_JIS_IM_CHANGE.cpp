@@ -540,7 +540,6 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex::Value
   VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(int sign00, int skip[], int replace_num00)
   {
-    int ii;
     SavedInputModeIndex::Value ret;
     SavedInputModeIndex::Value cur_index_tmp, others_index_tmp;
 
@@ -576,29 +575,29 @@ namespace org_pqrs_KeyRemap4MacBook {
     }
 
     int continue_end00 = 0;
-    for (ii = (cur_index_tmp == SavedInputModeIndex::NONE ? 1 : cur_index_tmp);;) {
-      if (ii > SavedInputModeIndex::MAX && sign00 == 1 || ii < 1 && sign00 == -1) {
+    for (int i = (cur_index_tmp == SavedInputModeIndex::NONE ? 1 : cur_index_tmp);;) {
+      if (i > SavedInputModeIndex::MAX && sign00 == 1 || i < 1 && sign00 == -1) {
         if (continue_end00 == 1) {
           ret = SavedInputModeIndex::NONE;
           break;
         }
         if (sign00 == 1) {
-          ii = 1;
+          i = 1;
         } else {
-          ii = SavedInputModeIndex::MAX;
+          i = SavedInputModeIndex::MAX;
         }
         continue_end00 = 1;
         continue;
       }
 
-      if (cur_index_tmp != SavedInputModeIndex::NONE && cur_index_tmp != ii &&
-          others_index_tmp != ii) {
-        if (skip[ii] != 1) {
-          ret = static_cast<SavedInputModeIndex::Value>(ii);
+      if (cur_index_tmp != SavedInputModeIndex::NONE && cur_index_tmp != i &&
+          others_index_tmp != i) {
+        if (skip[i] != 1) {
+          ret = static_cast<SavedInputModeIndex::Value>(i);
           break;
         }
       }
-      ii = ii + sign00;
+      i = i + sign00;
     }
 
     if (ret != SavedInputModeIndex::NONE) {
