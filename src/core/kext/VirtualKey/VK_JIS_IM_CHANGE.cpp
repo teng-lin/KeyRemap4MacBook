@@ -241,7 +241,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   void
-  VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(Params_KeyboardEventCallBack& params, int stage00)
+  VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(Params_KeyboardEventCallBack& params, StageType::Value stage)
   {
     bool isKeyDown = params.ex_iskeydown;
     bool keyisCCOS;
@@ -281,33 +281,33 @@ namespace org_pqrs_KeyRemap4MacBook {
     Flags flag00 = params.flags;
 
     if (isKeyDown) {
-      if (stage00 == POST_REMAP) {
+      if (stage == StageType::POST_REMAP) {
         VirtualKey::VK_JIS_IM_CHANGE::reverse_sign_CHANGE_SKIP(0);
-      } else if (stage00 == JUST_AFTER_REMAP) {
+      } else if (stage == StageType::JUST_AFTER_REMAP) {
         VirtualKey::VK_JIS_IM_CHANGE::reverse_sign_CHANGE_SKIP(1);
         return;
       }
     }
 
     if (! isKeyDown) {
-      if (! isPPP && ! isonCCO && stage00 == POST_REMAP) {
+      if (! isPPP && ! isonCCO && stage == StageType::POST_REMAP) {
         VirtualKey::VK_JIS_IM_CHANGE::scheduleCallback(VirtualKey::VK_JIS_IM_CHANGE::CallbackType::INIT);
       }
 
       return;
     }
 
-    if (stage00 == POST_REMAP) {
+    if (stage == StageType::POST_REMAP) {
       VirtualKey::VK_JIS_IM_CHANGE::cancelCallback();
     }
 
-    if (stage00 == POST_REMAP && ! ignore_improveIM) {
+    if (stage == StageType::POST_REMAP && ! ignore_improveIM) {
       VirtualKey::VK_JIS_IM_CHANGE::learn_WSD();
     }
 
-    bool conC2_1 = isPPP  && stage00 == NON_REMAPPED;
-    bool conC2_2 = ! isPPP && stage00 == POST_REMAP && (! omit_initialize_);
-    bool conC3   = ! isPPP && stage00 == NON_REMAPPED;
+    bool conC2_1 =   isPPP && stage == StageType::NON_REMAPPED;
+    bool conC2_2 = ! isPPP && stage == StageType::POST_REMAP && (! omit_initialize_);
+    bool conC3   = ! isPPP && stage == StageType::NON_REMAPPED;
 
     if (ignore_improveIM) {
       if (conC2_1 || conC2_2) {

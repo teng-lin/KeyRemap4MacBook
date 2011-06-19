@@ -70,6 +70,15 @@ namespace org_pqrs_KeyRemap4MacBook {
         };
       };
 
+      class StageType {
+      public:
+        enum Value {
+          POST_REMAP,
+          JUST_AFTER_REMAP,
+          NON_REMAPPED,
+        };
+      };
+
       static void initialize(IOWorkLoop& workloop);
       static void terminate(void);
 
@@ -81,16 +90,10 @@ namespace org_pqrs_KeyRemap4MacBook {
       static void static_set_case1_pass_restore(int case1_pass_restore00);
       static int get_case1_pass_restore(void) { return case1_pass_restore2_; }
 
-      static void ControlWorkspaceData(Params_KeyboardEventCallBack& params, int stage00);
+      static void ControlWorkspaceData(Params_KeyboardEventCallBack& params, StageType::Value stage);
 
       static void init_seesaw(void) {
         seesaw_init2_ = true;
-      };
-
-      enum {
-        POST_REMAP       = 0,
-        JUST_AFTER_REMAP = 1,
-        NON_REMAPPED     = 2,
       };
 
       static void reverse_sign_CHANGE_SKIP(int when00);

@@ -169,7 +169,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     void
     remap_KeyboardEventCallback(Params_KeyboardEventCallBack& params)
     {
-      VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::POST_REMAP);
+      VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::StageType::POST_REMAP);
 
       // ------------------------------------------------------------
       RemapParams remapParams(params);
@@ -179,7 +179,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       RemapClassManager::remap_key(remapParams);
 
-      VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::JUST_AFTER_REMAP);
+      VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::StageType::JUST_AFTER_REMAP);
 
       // ------------------------------------------------------------
       if (! remapParams.isremapped) {
@@ -187,7 +187,7 @@ namespace org_pqrs_KeyRemap4MacBook {
                                                                                        params.charCode, params.charSet, params.origCharCode, params.origCharSet,
                                                                                        params.keyboardType, false));
         if (ptr) {
-          VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::NON_REMAPPED);
+          VirtualKey::VK_JIS_IM_CHANGE::ControlWorkspaceData(params, VirtualKey::VK_JIS_IM_CHANGE::StageType::NON_REMAPPED);
           KeyboardRepeat::set(*ptr);
           EventOutputQueue::FireKey::fire(*ptr);
         }
