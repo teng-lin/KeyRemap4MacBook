@@ -33,6 +33,16 @@ namespace org_pqrs_KeyRemap4MacBook {
         };
       };
 
+      class ReplaceType {
+      public:
+        enum Value {
+          NONE,
+          NOSKIP,
+          SKIP_PREVIOUS,
+          SKIP_SPECIFIC,
+        };
+      };
+
       // This enum name may not be suitable.
       // I named it temporary.
       class SavedInputModeIndex {
@@ -114,7 +124,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       static SavedInputModeIndex::Value get_index_for_seesaw_AtoB_WSD(SeesawType::Value type);
       // XXX: DO NOT PASS int[] without length!!!
-      static SavedInputModeIndex::Value get_index_for_replaceWSD(int sign00, int skip[], int replace_num00);
+      static SavedInputModeIndex::Value get_index_for_replaceWSD(int sign00, int skip[], ReplaceType::Value replacetype);
 
       static void set_indexes_directly(SavedInputModeIndex::Value new_pre, SavedInputModeIndex::Value new_cur, SavedInputModeIndex::Value new_others);
       static void set_new_index(SavedInputModeIndex::Value index);

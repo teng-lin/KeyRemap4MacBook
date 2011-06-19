@@ -89,7 +89,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     KeyCode key00  = params.key;
     SavedInputModeIndex::Value index = SavedInputModeIndex::NONE;
     int skip00[SavedInputModeIndex::MAX + 1] = { 0 };
-    int replace_num00;
+    ReplaceType::Value replacetype = ReplaceType::NONE;
     SeesawType::Value seesawType = SeesawType::NONE;
     SkipType::Value skipType = SkipType::NONE;
 
@@ -167,23 +167,23 @@ namespace org_pqrs_KeyRemap4MacBook {
         }
         if (skipType == SkipType::NONE_FORWARD ||
             skipType == SkipType::NONE_BACK) {
-          replace_num00 = 1;
+          replacetype = ReplaceType::NOSKIP;
         } else {
           if (skipType == SkipType::EISUU_KANA) {
             skip00[SavedInputModeIndex::EISU] = 1;
             skip00[SavedInputModeIndex::HIRA] = 1;
-            replace_num00 = 3;
+            replacetype = ReplaceType::SKIP_SPECIFIC;
           } else if (skipType == SkipType::KANA) {
             skip00[SavedInputModeIndex::HIRA] = 1;
-            replace_num00 = 3;
+            replacetype = ReplaceType::SKIP_SPECIFIC;
           } else if (skipType == SkipType::EISUU) {
             skip00[SavedInputModeIndex::EISU] = 1;
-            replace_num00 = 3;
+            replacetype = ReplaceType::SKIP_SPECIFIC;
           } else {
-            replace_num00 = 2;
+            replacetype = ReplaceType::SKIP_PREVIOUS;
           }
         }
-        index = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(sign00, skip00, replace_num00);
+        index = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(sign00, skip00, replacetype);
       }
 
       if (index == SavedInputModeIndex::EISU) {
@@ -538,7 +538,7 @@ namespace org_pqrs_KeyRemap4MacBook {
   }
 
   VirtualKey::VK_JIS_IM_CHANGE::SavedInputModeIndex::Value
-  VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(int sign00, int skip[], int replace_num00)
+  VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(int sign00, int skip[], ReplaceType::Value replacetype)
   {
     SavedInputModeIndex::Value ret;
     SavedInputModeIndex::Value cur_index_tmp, others_index_tmp;
@@ -554,10 +554,10 @@ namespace org_pqrs_KeyRemap4MacBook {
     bool cond12 = (pre_index2_ == SavedInputModeIndex::HKAT && cur_index2_ == SavedInputModeIndex::HIRA && others_index2_ == SavedInputModeIndex::HKAT);
     bool cond13 = (pre_index2_ != SavedInputModeIndex::HKAT && cur_index2_ == SavedInputModeIndex::KATA);
     bool cond14 = (pre_index2_ == SavedInputModeIndex::KATA && cur_index2_ == SavedInputModeIndex::HKAT);
-    if (replace_num00 == 2) {
+    if (replacetype == ReplaceType::SKIP_PREVIOUS) {
       skip[pre_index2_] = 1;
 
-    } else if (replace_num00 == 3) {
+    } else if (replacetype == ReplaceType::SKIP_SPECIFIC) {
       if (sign_plus_minus2_ == -99) {
         sign_plus_minus2_ = 1;
       }
@@ -601,12 +601,12 @@ namespace org_pqrs_KeyRemap4MacBook {
     }
 
     if (ret != SavedInputModeIndex::NONE) {
-      if (replace_num00 == 2) {
+      if (replacetype == ReplaceType::SKIP_PREVIOUS) {
         set_indexes_directly(SavedInputModeIndex::NONE, ret, SavedInputModeIndex::NONE);
       } else {
         set_indexes_directly(cur_index_tmp, ret, SavedInputModeIndex::NONE);
       }
-      if (replace_num00 == 2 || replace_num00 == 3) {
+      if (replacetype == ReplaceType::SKIP_PREVIOUS || replacetype == ReplaceType::SKIP_SPECIFIC) {
         set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, ret);
       }
     } else {
