@@ -276,7 +276,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     isonCCOSonly = (isonS || isonCCO) && ! keyisCCOS;
 
-    int isPPP = (is_eisuu_kana_kanashift || isonCCOSonly);
+    bool isPPP = (is_eisuu_kana_kanashift || isonCCOSonly);
     KeyCode key00  = params.key;
     Flags flag00 = params.flags;
 
