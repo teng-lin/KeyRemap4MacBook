@@ -479,27 +479,40 @@ namespace org_pqrs_KeyRemap4MacBook {
     SavedInputModeIndex::Value tmp_index;
     SavedInputModeIndex::Value Aindex00, Bindex00;
 
-    if (type == SeesawType::CUR_PRE) {
-      Aindex00 = cur_index2_;
-      Bindex00 = pre_index2_;
-    } else if (type == SeesawType::EISUU_KANA) {
-      Aindex00 = SavedInputModeIndex::EISU;
-      Bindex00 = SavedInputModeIndex::HIRA;
-    } else if (type == SeesawType::KANA_EISUU) {
-      Aindex00 = SavedInputModeIndex::HIRA;
-      Bindex00 = SavedInputModeIndex::EISU;
-    } else if (type == SeesawType::KANA_OTHERS) {
-      if (others_index2_ == SavedInputModeIndex::NONE) {
-        set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
-      }
-      Aindex00 = SavedInputModeIndex::HIRA;
-      Bindex00 = others_index2_;
-    } else {
-      if (others_index2_ == SavedInputModeIndex::NONE) {
-        set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
-      }
-      Aindex00 = SavedInputModeIndex::EISU;
-      Bindex00 = others_index2_;
+    switch (type) {
+      case SeesawType::CUR_PRE:
+        Aindex00 = cur_index2_;
+        Bindex00 = pre_index2_;
+        break;
+
+      case SeesawType::EISUU_KANA:
+        Aindex00 = SavedInputModeIndex::EISU;
+        Bindex00 = SavedInputModeIndex::HIRA;
+        break;
+
+      case SeesawType::KANA_EISUU:
+        Aindex00 = SavedInputModeIndex::HIRA;
+        Bindex00 = SavedInputModeIndex::EISU;
+        break;
+
+      case SeesawType::KANA_OTHERS:
+        if (others_index2_ == SavedInputModeIndex::NONE) {
+          set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
+        }
+        Aindex00 = SavedInputModeIndex::HIRA;
+        Bindex00 = others_index2_;
+        break;
+
+      case SeesawType::EISUU_OTHERS:
+        if (others_index2_ == SavedInputModeIndex::NONE) {
+          set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
+        }
+        Aindex00 = SavedInputModeIndex::EISU;
+        Bindex00 = others_index2_;
+        break;
+
+      case SeesawType::NONE:
+        return SavedInputModeIndex::NONE;
     }
 
     if (cur_index2_ != SavedInputModeIndex::NONE && pre_index2_ != SavedInputModeIndex::NONE) {
