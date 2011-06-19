@@ -70,7 +70,7 @@ namespace org_pqrs_KeyRemap4MacBook {
     int skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdMAX + 1] = { 0 };
     int replace_num00;
     SeesawType::Value seesawType = SeesawType::NONE;
-    int skipType00   = -1;
+    SkipType::Value skipType = SkipType::NONE;
 
     if (key00 == KeyCode::VK_JIS_IM_CHANGE_CUR_PRE ||
         key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_NONE_FORWARD  ||
@@ -100,19 +100,19 @@ namespace org_pqrs_KeyRemap4MacBook {
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_EISUU_OTHERS) {
         seesawType = SeesawType::EISUU_OTHERS;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_NONE_FORWARD) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_FORWARD;
+        skipType = SkipType::NONE_FORWARD;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_PRE_FORWARD) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_PRE_FORWARD;
+        skipType = SkipType::PRE_FORWARD;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_NONE_BACK) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_BACK;
+        skipType = SkipType::NONE_BACK;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_PRE_BACK) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_PRE_BACK;
+        skipType = SkipType::PRE_BACK;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_KANA_EISUU) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU_KANA;
+        skipType = SkipType::EISUU_KANA;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_KANA) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_KANA;
+        skipType = SkipType::KANA;
       } else if (key00 == KeyCode::VK_JIS_IM_CHANGE_SKIP_EISUU) {
-        skipType00 = VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU;
+        skipType = SkipType::EISUU;
       }
 
       newflag_ = ModifierFlag::NONE;
@@ -128,14 +128,14 @@ namespace org_pqrs_KeyRemap4MacBook {
 
       } else {
         int sign00;
-        if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU_KANA ||
-            skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_KANA ||
-            skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU) {
+        if (skipType == SkipType::EISUU_KANA ||
+            skipType == SkipType::KANA ||
+            skipType == SkipType::EISUU) {
           VirtualKey::VK_JIS_IM_CHANGE::reverse_sign_CHANGE_SKIP(9);
         }
 
-        if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_BACK ||
-            skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_PRE_BACK) {
+        if (skipType == SkipType::NONE_BACK ||
+            skipType == SkipType::PRE_BACK) {
           sign00 = -1;
         } else {
           sign00 =  1;
@@ -145,18 +145,18 @@ namespace org_pqrs_KeyRemap4MacBook {
         if (! use_ainu) {
           skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdAINU] = 1;
         }
-        if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_FORWARD ||
-            skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_NONE_BACK) {
+        if (skipType == SkipType::NONE_FORWARD ||
+            skipType == SkipType::NONE_BACK) {
           replace_num00 = 1;
         } else {
-          if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU_KANA) {
+          if (skipType == SkipType::EISUU_KANA) {
             skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdEISU] = 1;
             skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA] = 1;
             replace_num00 = 3;
-          } else if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_KANA) {
+          } else if (skipType == SkipType::KANA) {
             skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdHIRA] = 1;
             replace_num00 = 3;
-          } else if (skipType00 == VirtualKey::VK_JIS_IM_CHANGE::SKIP_EISUU) {
+          } else if (skipType == SkipType::EISUU) {
             skip00[VirtualKey::VK_JIS_IM_CHANGE::wsdEISU] = 1;
             replace_num00 = 3;
           } else {

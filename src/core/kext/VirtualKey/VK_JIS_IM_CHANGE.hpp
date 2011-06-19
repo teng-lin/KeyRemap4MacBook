@@ -20,6 +20,21 @@ namespace org_pqrs_KeyRemap4MacBook {
         };
       };
 
+      class SkipType {
+      public:
+        enum Value {
+          NONE         = -1,
+          // XXX: change all values to auto-indexed.
+          NONE_FORWARD = 0,
+          NONE_BACK    = 1,
+          PRE_FORWARD  = 2,
+          PRE_BACK     = 3,
+          EISUU_KANA   = 4,
+          KANA         = 5,
+          EISUU        = 6,
+        };
+      };
+
       // This enum name may not be suitable.
       // I named it temporary.
       enum SavedInputModeIndex {
@@ -33,16 +48,6 @@ namespace org_pqrs_KeyRemap4MacBook {
         wsdAINU  = 5,
         wsdFEIS  = 6,
         wsdMAX   = 6,
-      };
-
-      enum {
-        SKIP_NONE_FORWARD = 0,
-        SKIP_NONE_BACK    = 1,
-        SKIP_PRE_FORWARD  = 2,
-        SKIP_PRE_BACK     = 3,
-        SKIP_EISUU_KANA   = 4,
-        SKIP_KANA         = 5,
-        SKIP_EISUU        = 6,
       };
 
       class CallbackType {
