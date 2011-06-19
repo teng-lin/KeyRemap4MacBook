@@ -185,26 +185,39 @@ namespace org_pqrs_KeyRemap4MacBook {
         index = VirtualKey::VK_JIS_IM_CHANGE::get_index_for_replaceWSD(sign00, skip00, replacetype);
       }
 
-      if (index == SavedInputModeIndex::EISU) {
-        newkeycode_ = KeyCode::JIS_COLON;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index == SavedInputModeIndex::HIRA) {
-        newkeycode_ = KeyCode::J;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index == SavedInputModeIndex::KATA) {
-        newkeycode_ = KeyCode::K;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index == SavedInputModeIndex::HKAT) {
-        newkeycode_ = KeyCode::SEMICOLON;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index == SavedInputModeIndex::FEIS) {
-        newkeycode_ = KeyCode::L;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else if (index == SavedInputModeIndex::AINU) {
-        newkeycode_ = KeyCode::JIS_BRACKET_RIGHT;
-        newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
-      } else {
-        return true;
+      switch (index) {
+        case SavedInputModeIndex::EISU:
+          newkeycode_ = KeyCode::JIS_COLON;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::HIRA:
+          newkeycode_ = KeyCode::J;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::KATA:
+          newkeycode_ = KeyCode::K;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::HKAT:
+          newkeycode_ = KeyCode::SEMICOLON;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::FEIS:
+          newkeycode_ = KeyCode::L;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::AINU:
+          newkeycode_ = KeyCode::JIS_BRACKET_RIGHT;
+          newflag_    = ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L;
+          break;
+
+        case SavedInputModeIndex::NONE:
+          return true;
       }
     }
 
