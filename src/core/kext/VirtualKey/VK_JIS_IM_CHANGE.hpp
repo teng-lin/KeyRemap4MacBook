@@ -51,9 +51,9 @@ namespace org_pqrs_KeyRemap4MacBook {
       class CallbackType {
       public:
         enum Value {
-          INIT        = 0,
-          RESTORE     = 1,
-          SEESAW_INIT = 2,
+          INIT,
+          RESTORE,
+          SEESAW_INIT,
         };
       };
 
