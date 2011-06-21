@@ -490,38 +490,38 @@ namespace org_pqrs_KeyRemap4MacBook {
   VirtualKey::VK_JIS_IM_CHANGE::get_index_for_seesaw_AtoB_WSD(SeesawType::Value type)
   {
     SavedInputModeIndex::Value tmp_index;
-    SavedInputModeIndex::Value Aindex00, Bindex00;
+    SavedInputModeIndex::Value fromIndex, toIndex;
 
     switch (type) {
       case SeesawType::CUR_PRE:
-        Aindex00 = cur_index2_;
-        Bindex00 = pre_index2_;
+        fromIndex = cur_index2_;
+        toIndex   = pre_index2_;
         break;
 
       case SeesawType::EISUU_KANA:
-        Aindex00 = SavedInputModeIndex::EISU;
-        Bindex00 = SavedInputModeIndex::HIRA;
+        fromIndex = SavedInputModeIndex::EISU;
+        toIndex   = SavedInputModeIndex::HIRA;
         break;
 
       case SeesawType::KANA_EISUU:
-        Aindex00 = SavedInputModeIndex::HIRA;
-        Bindex00 = SavedInputModeIndex::EISU;
+        fromIndex = SavedInputModeIndex::HIRA;
+        toIndex   = SavedInputModeIndex::EISU;
         break;
 
       case SeesawType::KANA_OTHERS:
         if (others_index2_ == SavedInputModeIndex::NONE) {
           set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
         }
-        Aindex00 = SavedInputModeIndex::HIRA;
-        Bindex00 = others_index2_;
+        fromIndex = SavedInputModeIndex::HIRA;
+        toIndex   = others_index2_;
         break;
 
       case SeesawType::EISUU_OTHERS:
         if (others_index2_ == SavedInputModeIndex::NONE) {
           set_indexes_directly(SavedInputModeIndex::NONE, SavedInputModeIndex::NONE, SavedInputModeIndex::KATA);
         }
-        Aindex00 = SavedInputModeIndex::EISU;
-        Bindex00 = others_index2_;
+        fromIndex = SavedInputModeIndex::EISU;
+        toIndex   = others_index2_;
         break;
 
       case SeesawType::NONE:
@@ -530,7 +530,7 @@ namespace org_pqrs_KeyRemap4MacBook {
 
     if (cur_index2_ != SavedInputModeIndex::NONE && pre_index2_ != SavedInputModeIndex::NONE) {
       if (type == SeesawType::CUR_PRE) {
-        set_indexes_directly(Aindex00, Bindex00, SavedInputModeIndex::NONE);
+        set_indexes_directly(fromIndex, toIndex, SavedInputModeIndex::NONE);
         return cur_index2_;
       } else {
         tmp_index = cur_index2_;
@@ -545,17 +545,17 @@ namespace org_pqrs_KeyRemap4MacBook {
         }
         return cur_index2_;
       } else {
-        tmp_index = Bindex00;
+        tmp_index = toIndex;
       }
     }
-    if (cur_index2_ != Aindex00) {
-      set_indexes_directly(tmp_index, Aindex00, SavedInputModeIndex::NONE);
+    if (cur_index2_ != fromIndex) {
+      set_indexes_directly(tmp_index, fromIndex, SavedInputModeIndex::NONE);
     } else {
-      set_indexes_directly(Aindex00, Bindex00, SavedInputModeIndex::NONE);
+      set_indexes_directly(fromIndex, toIndex, SavedInputModeIndex::NONE);
     }
     if (seesaw_init2_) {
-      if (cur_index2_ != Aindex00) {
-        set_indexes_directly(cur_index2_, Aindex00, SavedInputModeIndex::NONE);
+      if (cur_index2_ != fromIndex) {
+        set_indexes_directly(cur_index2_, fromIndex, SavedInputModeIndex::NONE);
       }
       seesaw_init2_ = false;
     }
