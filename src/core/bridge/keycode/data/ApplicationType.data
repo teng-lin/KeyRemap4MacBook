@@ -116,3 +116,6 @@ ORACLE_SQL_DEVELOPER    --AUTO--
 
 // com.apple.systempreferences
 SYSTEM_PREFERENCES      --AUTO--
+
+//Integrated Development Environment
+IDE                     --AUTO--

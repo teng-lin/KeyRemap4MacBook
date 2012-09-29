@@ -296,6 +296,11 @@
     return [parser keycode:@"ApplicationType::SYSTEM_PREFERENCES"];
   }
 
+  if ([name isEqualToString:@"com.jetbrains.pycharm"] ||
+      [name isEqualToString:@"com.jetbrains.rubymine"]) {
+    return [parser keycode:@"ApplicationType::IDE"];
+  }
+
   return [parser keycode:@"ApplicationType::UNKNOWN"];
 }
 
