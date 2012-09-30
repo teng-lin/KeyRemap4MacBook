@@ -2,7 +2,7 @@
 
 version=$(cat version)
 
-packagemaker=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
+packagemaker=/Applications/PackageMaker.app/Contents/MacOS/PackageMaker
 pkgName="KeyRemap4MacBook.pkg"
 archiveName="KeyRemap4MacBook-${version}.pkg.zip"
 
